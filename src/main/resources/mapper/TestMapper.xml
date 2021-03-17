@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.austin.common.mapper.TestMapper">
+    <!--示例方法-->
+    <!--
+    id:方法名，命名空间，必须和mapper对应
+    parameterType:参数类型
+    resultType:返回类型
+    -->
+    <!--
+    使用传入参数时，尽量使用#{},不要数用${},如果使用${},需对参数进行判断，防止SQL注入攻击成功的发生
+    #{}是经过预编译的，是安全的；${}是未经过预编译的，仅仅是取变量的值，是非安全的，存在SQL注入
+    -->
+    <select id="getMessage" parameterType="string" resultType="string">
+        SELECT DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%S') AS now_time FROM DUAL
+    </select>
+
+</mapper>
