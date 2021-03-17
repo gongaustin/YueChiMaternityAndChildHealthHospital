@@ -36,7 +36,7 @@ public class Swagger2 {
                 //描述
                 .description("接口文档")
                 //创建人
-                .contact(new Contact("Austin", "www.sevencai.com", "28402674@qq.com"))
+                .contact(new Contact("Austin", "https://weibo.com/kongiun/home?wvr=5#_loginLayer_1615971159295", "28402674@qq.com"))
                 //版本号
                 .version("1.0").build();
     }
