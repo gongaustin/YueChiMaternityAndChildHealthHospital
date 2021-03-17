@@ -42,6 +42,7 @@ public class Swagger2 {
                         "28402674@qq.com")
                 )
                 //版本号
-                .version("1.0").build();
+                .version("1.0")
+                .build();
     }
 }

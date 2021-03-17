@@ -12,8 +12,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 //@SpringBootApplication已经包括@ComponentScan和@EnableAutoConfiguration,单独写出来声明Package后则@SpringBootApplication中的就会失效
 @SpringBootApplication
 @EnableSwagger2
-public class CommonApplicationStarter {
+public class YueChiApplicationStarter {
     public static void main(String[] args) {
-        SpringApplication.run(CommonApplicationStarter.class);
+        SpringApplication.run(YueChiApplicationStarter.class);
     }
 }
