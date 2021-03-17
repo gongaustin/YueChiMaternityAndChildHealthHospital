@@ -17,7 +17,7 @@
     </parent>
 
     <name>common</name>
-    <description>This is a common project</description>
+    <description>YueChiMaternityAndChildHealthHospital Project</description>
     <!--Java版本-->
     <properties>
         <java.version>1.8</java.version>
