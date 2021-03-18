@@ -1,6 +1,5 @@
 package com.austin.common.core.shiro;
 
-import com.austin.common.entity.Permission;
 import com.austin.common.entity.User;
 import com.austin.common.service.IUserService;
 import com.austin.common.utils.JWTUtil;
@@ -51,21 +50,21 @@ public class MyRealm extends AuthorizingRealm {
     /**
      * 只有当需要检测用户权限的时候才会调用此方法，例如checkRole,checkPermission之类的
      */
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String id = JWTUtil.getUserId(principals.toString());
-        String username = JWTUtil.getUsername(principals.toString());
-        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        QueryWrapper ew = new QueryWrapper<User>().eq("id",id);
-        if(!"admin".equals(username)){
-            ew.eq("up.status={0}",1);
-            ew.eq("ur.status={0}",1);
-        }
-        List<Permission> permissions = this.service.selectUserPermissionsByWrapper(ew);
-        Set<String> permission = new HashSet<>(Objects.requireNonNull(permissions == null ? null : permissions.stream().map(Permission::getPermissionValue).collect(Collectors.toList())));
-        simpleAuthorizationInfo.addStringPermissions(permission);
-        return simpleAuthorizationInfo;
-    }
+//    @Override
+//    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+//        String id = JWTUtil.getUserId(principals.toString());
+//        String username = JWTUtil.getUsername(principals.toString());
+//        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+//        QueryWrapper ew = new QueryWrapper<User>().eq("id",id);
+//        if(!"admin".equals(username)){
+//            ew.eq("up.status={0}",1);
+//            ew.eq("ur.status={0}",1);
+//        }
+//        List<Permission> permissions = this.service.selectUserPermissionsByWrapper(ew);
+//        Set<String> permission = new HashSet<>(Objects.requireNonNull(permissions == null ? null : permissions.stream().map(Permission::getPermissionValue).collect(Collectors.toList())));
+//        simpleAuthorizationInfo.addStringPermissions(permission);
+//        return simpleAuthorizationInfo;
+//    }
 
     /**
      * 默认使用此方法进行用户名正确与否验证，错误抛出异常即可。
@@ -92,4 +91,8 @@ public class MyRealm extends AuthorizingRealm {
     }
 
 
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        return null;
+    }
 }

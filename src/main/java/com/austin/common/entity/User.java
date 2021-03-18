@@ -1,94 +1,92 @@
 package com.austin.common.entity;
 
-import com.austin.common.core.constant.TimeConstant;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import java.time.LocalDateTime;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
- * 用户人员
+ * 网站维护人员表
  * </p>
  *
- * @author GongJun
- * @since 2019-08-28
+ * @author AustinGJ
+ * @since 2021-03-18
  */
 @TableName("upms_user")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     /**
      * 编号
      */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    private String id;
+      private String id;
+
     /**
      * 帐号
      */
     private String username;
+
     /**
-     * 密码MD5(密码+盐)
+     * 密码MD5
      */
     private String password;
-    /**
-     * 盐
-     */
-    private String salt;
+
     /**
      * 姓名
      */
     private String realname;
+
     /**
-     * 头像
+     * 头像（附件表UUID）
      */
-    private String avatar;
+    private String avatarAttchmentId;
+
     /**
      * 手机
      */
     private String cellphone;
+
     /**
      * 邮箱
      */
     private String email;
+
     /**
      * 性别
      */
     private String sex;
+
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
-    @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
-    private Date ctime;
+    private LocalDateTime ctime;
+
     /**
      * 人员介绍
      */
     private String introduction;
+
     /**
      * 科室ID
      */
-    @TableField("dept_id")
     private String deptId;
+
     /**
      * 职务
      */
     private String position;
+
     /**
      * 办公室电话
      */
-    @TableField("office_phone")
     private String officePhone;
+
     /**
-     * 状态(1:正常,0:锁定)
+     * 逻辑删除标识符
      */
-    private Integer status;
+    private Integer isDelete;
+
     /**
      * 备用字段
      */
@@ -119,14 +117,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     public String getRealname() {
         return realname;
     }
@@ -135,12 +125,12 @@ public class User implements Serializable {
         this.realname = realname;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getAvatarAttchmentId() {
+        return avatarAttchmentId;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvatarAttchmentId(String avatarAttchmentId) {
+        this.avatarAttchmentId = avatarAttchmentId;
     }
 
     public String getCellphone() {
@@ -167,11 +157,11 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public Date getCtime() {
+    public LocalDateTime getCtime() {
         return ctime;
     }
 
-    public void setCtime(Date ctime) {
+    public void setCtime(LocalDateTime ctime) {
         this.ctime = ctime;
     }
 
@@ -207,12 +197,12 @@ public class User implements Serializable {
         this.officePhone = officePhone;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getIsDelete() {
+        return isDelete;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getBackup() {
@@ -226,12 +216,11 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-        ", id=" + id +
+        "id=" + id +
         ", username=" + username +
         ", password=" + password +
-        ", salt=" + salt +
         ", realname=" + realname +
-        ", avatar=" + avatar +
+        ", avatarAttchmentId=" + avatarAttchmentId +
         ", cellphone=" + cellphone +
         ", email=" + email +
         ", sex=" + sex +
@@ -240,7 +229,7 @@ public class User implements Serializable {
         ", deptId=" + deptId +
         ", position=" + position +
         ", officePhone=" + officePhone +
-        ", status=" + status +
+        ", isDelete=" + isDelete +
         ", backup=" + backup +
         "}";
     }

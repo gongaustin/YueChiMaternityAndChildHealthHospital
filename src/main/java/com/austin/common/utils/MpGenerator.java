@@ -16,15 +16,22 @@ public class MpGenerator {
 
     private static final String package_name = "com.austin.common";  //包名
     private static final String driver_class_name = "com.mysql.cj.jdbc.Driver";   //数据库驱动
-    private static final String url = "jdbc:mysql://127.0.0.1:3306/common?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&&useSSL=true";
+    private static final String url = "jdbc:mysql://127.0.0.1:3306/yuechi_hospital?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&&useSSL=true";
     private static final String username = "root"; //用户名
     private static final String password = "123";  //密码
 
     public static void main(String args[]) {
 
-        String[] table_prefix = new String[]{"ce_", "upms_"};  //表前缀
+        String[] table_prefix = new String[]{"busi_", "upms_"};  //表前缀
 
-        String[] table_names = new String[]{"upms_user"};  //表名
+        String[] table_names = new String[]{
+                "upms_user",
+                "upms_log",
+                "upms_dept",
+                "busi_article",
+                "busi_doctor",
+                "busi_attachment"
+        };  //表名
 
         new MpGenerator().generateCode(
                 package_name,
