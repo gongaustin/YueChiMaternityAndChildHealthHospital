@@ -3,6 +3,7 @@ package com.austin.common.controller;
 
 import com.austin.common.entity.Attachment;
 import com.austin.common.service.IAttachmentService;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,8 +31,9 @@ import java.util.Date;
  * @author AustinGJ
  * @since 2021-03-18
  */
-@Controller
+@RestController
 @RequestMapping("/attachment")
+@Api("附件前端控制器")
 public class AttachmentController {
 
     @Autowired

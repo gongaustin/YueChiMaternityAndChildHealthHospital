@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/")
-@Api("测试Controller")
+@Api("测试控制器[仅供测试]")
 public class TestController {
     @Autowired
     ITestService service;
