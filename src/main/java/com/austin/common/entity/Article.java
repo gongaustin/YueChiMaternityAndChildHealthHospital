@@ -1,6 +1,10 @@
 package com.austin.common.entity;
 
+import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -45,6 +49,8 @@ public class Article implements Serializable {
     /**
      * 发表时间
      */
+    @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
+    @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
     private LocalDateTime ctime;
 
     /**

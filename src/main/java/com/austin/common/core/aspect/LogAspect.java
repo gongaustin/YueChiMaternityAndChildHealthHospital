@@ -94,7 +94,7 @@ public class LogAspect {
         String params = JSON.toJSONString(args);
         sysLog.setParameter(params);
         //获取操作开始时间
-        sysLog.setStartTime(new Date());
+        sysLog.setStartTime(System.currentTimeMillis());
 
 
         //获取用户ip地址

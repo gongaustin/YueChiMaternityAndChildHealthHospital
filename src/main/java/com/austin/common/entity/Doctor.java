@@ -1,6 +1,11 @@
 package com.austin.common.entity;
 
+import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
@@ -72,14 +77,21 @@ public class Doctor implements Serializable {
     private String description;
 
     /**
-     * 逻辑删除标识符（）
-     */
-    private Integer isDelete;
-
-    /**
      * 是否为专家（0：不是、1：是）
      */
     private Integer isSpecialist;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
+    @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
+    private LocalDateTime ctime;
+
+    /**
+     * 逻辑删除标识符（）
+     */
+    private Integer isDelete;
 
 
     public String getId() {
@@ -170,20 +182,28 @@ public class Doctor implements Serializable {
         this.description = description;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
-    }
-
     public Integer getIsSpecialist() {
         return isSpecialist;
     }
 
     public void setIsSpecialist(Integer isSpecialist) {
         this.isSpecialist = isSpecialist;
+    }
+
+    public LocalDateTime getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(LocalDateTime ctime) {
+        this.ctime = ctime;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     @Override
@@ -200,8 +220,9 @@ public class Doctor implements Serializable {
         ", visitTime=" + visitTime +
         ", contact=" + contact +
         ", description=" + description +
-        ", isDelete=" + isDelete +
         ", isSpecialist=" + isSpecialist +
+        ", ctime=" + ctime +
+        ", isDelete=" + isDelete +
         "}";
     }
 }
