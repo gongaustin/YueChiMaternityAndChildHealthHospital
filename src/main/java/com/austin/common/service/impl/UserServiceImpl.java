@@ -24,7 +24,6 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
 
-
     @Override
     public UserBean getUser(String username) {
         UserBean ub = new UserBean();
@@ -33,7 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public List<UserVo> selectUserVoPage(Page page, Wrapper wrapper) {
-        return this.baseMapper.selectUserVoPage(page,wrapper);
+        return this.baseMapper.selectUserVoPage(page, wrapper);
     }
 
     @Override

@@ -20,7 +20,6 @@ import java.util.List;
 public interface IUserService extends IService<User> {
 
 
-
     UserBean getUser(String username);
 
     List<UserVo> selectUserVoPage(Page page, Wrapper wrapper);

@@ -1,6 +1,7 @@
 package com.austin.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 
 /**
@@ -14,12 +15,12 @@ import java.io.Serializable;
 @TableName("upms_log")
 public class Log implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 编号
      */
-      private String id;
+    private String id;
 
     /**
      * 操作描述
@@ -195,21 +196,6 @@ public class Log implements Serializable {
 
     @Override
     public String toString() {
-        return "Log{" +
-        "id=" + id +
-        ", description=" + description +
-        ", username=" + username +
-        ", startTime=" + startTime +
-        ", spendTime=" + spendTime +
-        ", basePath=" + basePath +
-        ", uri=" + uri +
-        ", url=" + url +
-        ", method=" + method +
-        ", parameter=" + parameter +
-        ", userAgent=" + userAgent +
-        ", ip=" + ip +
-        ", result=" + result +
-        ", permissions=" + permissions +
-        "}";
+        return "Log{" + "id=" + id + ", description=" + description + ", username=" + username + ", startTime=" + startTime + ", spendTime=" + spendTime + ", basePath=" + basePath + ", uri=" + uri + ", url=" + url + ", method=" + method + ", parameter=" + parameter + ", userAgent=" + userAgent + ", ip=" + ip + ", result=" + result + ", permissions=" + permissions + "}";
     }
 }

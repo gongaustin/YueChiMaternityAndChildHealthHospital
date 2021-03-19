@@ -7,24 +7,28 @@ package com.austin.common.core.enums;
  */
 public enum KeYanJiaoXueModule {
 
-    YILIAOJIGOUGAIKUANG("医疗机构概况",11),
+    YILIAOJIGOUGAIKUANG("医疗机构概况", 11),
 
-    YILIAOFUWUGAIKUANG("医疗服务概况",12),
+    YILIAOFUWUGAIKUANG("医疗服务概况", 12),
 
-    YILIAOJIGOUHUANGJING("医疗机构环境",13),
+    YILIAOJIGOUHUANGJING("医疗机构环境", 13),
 
-    HANGFENGLIANZHENGJIANSHE("行风廉政建设",14),
+    HANGFENGLIANZHENGJIANSHE("行风廉政建设", 14),
 
 
     ;
-    private String name; private int index;
+    private String name;
+    private int index;
+
     KeYanJiaoXueModule(String name, int i) {
-        this.name = name; this.index = index;
+        this.name = name;
+        this.index = index;
     }
+
     //覆盖方法
     @Override
     public String toString() {
-        return this.index+"_"+this.name;
+        return this.index + "_" + this.name;
     }
 
 }

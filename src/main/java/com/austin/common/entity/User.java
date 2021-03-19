@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @TableName("upms_user")
 public class User implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 编号
      */
-      private String id;
+    private String id;
 
     /**
      * 帐号
@@ -221,22 +221,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-        "id=" + id +
-        ", username=" + username +
-        ", password=" + password +
-        ", realname=" + realname +
-        ", avatarAttchmentId=" + avatarAttchmentId +
-        ", cellphone=" + cellphone +
-        ", email=" + email +
-        ", sex=" + sex +
-        ", ctime=" + ctime +
-        ", introduction=" + introduction +
-        ", deptId=" + deptId +
-        ", position=" + position +
-        ", officePhone=" + officePhone +
-        ", isDelete=" + isDelete +
-        ", backup=" + backup +
-        "}";
+        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", realname=" + realname + ", avatarAttchmentId=" + avatarAttchmentId + ", cellphone=" + cellphone + ", email=" + email + ", sex=" + sex + ", ctime=" + ctime + ", introduction=" + introduction + ", deptId=" + deptId + ", position=" + position + ", officePhone=" + officePhone + ", isDelete=" + isDelete + ", backup=" + backup + "}";
     }
 }

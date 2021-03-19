@@ -3,7 +3,10 @@ package com.austin.common.utils;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 
@@ -24,20 +27,9 @@ public class MpGenerator {
 
         String[] table_prefix = new String[]{"busi_", "upms_"};  //表前缀
 
-        String[] table_names = new String[]{
-                "upms_user",
-                "upms_log",
-                "upms_dept",
-                "busi_article",
-                "busi_doctor",
-                "busi_attachment"
-        };  //表名
+        String[] table_names = new String[]{"upms_user", "upms_log", "upms_dept", "busi_article", "busi_doctor", "busi_attachment"};  //表名
 
-        new MpGenerator().generateCode(
-                package_name,
-                table_prefix,
-                table_names
-        );
+        new MpGenerator().generateCode(package_name, table_prefix, table_names);
     }
 
     public void generateCode(String packageName, String[] prefix, String... tableName) {
@@ -50,39 +42,12 @@ public class MpGenerator {
         GlobalConfig config = new GlobalConfig();
         String dbUrl = url;
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig
-                .setDbType(DbType.MYSQL)
-                .setUrl(dbUrl)
-                .setUsername(username)
-                .setPassword(password)
-                .setDriverName(driver_class_name);
+        dataSourceConfig.setDbType(DbType.MYSQL).setUrl(dbUrl).setUsername(username).setPassword(password).setDriverName(driver_class_name);
         StrategyConfig strategyConfig = new StrategyConfig();
-        strategyConfig
-                .setCapitalMode(true)
-                .setEntityLombokModel(false)
-                .setTablePrefix(prefix)
-                .setNaming(NamingStrategy.underline_to_camel)  //转驼峰
+        strategyConfig.setCapitalMode(true).setEntityLombokModel(false).setTablePrefix(prefix).setNaming(NamingStrategy.underline_to_camel)  //转驼峰
                 .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
-        config
-                .setActiveRecord(false)
-                .setEnableCache(false)
-                .setAuthor("AustinGJ")
-                .setOutputDir("d:/tmp")
-                .setFileOverride(true);
-        new AutoGenerator()
-                .setGlobalConfig(config)
-                .setDataSource(dataSourceConfig)
-                .setStrategy(strategyConfig)
-                .setPackageInfo(
-                        new PackageConfig()
-                                .setParent(packageName)
-                                .setEntity("entity")
-                                .setMapper("mapper")
-                                .setXml("resource.mapper")
-                                .setController("controller")
-                                .setService("service")
-                                .setServiceImpl("service.impl")
-                ).execute();
+        config.setActiveRecord(false).setEnableCache(false).setAuthor("AustinGJ").setOutputDir("d:/tmp").setFileOverride(true);
+        new AutoGenerator().setGlobalConfig(config).setDataSource(dataSourceConfig).setStrategy(strategyConfig).setPackageInfo(new PackageConfig().setParent(packageName).setEntity("entity").setMapper("mapper").setXml("resource.mapper").setController("controller").setService("service").setServiceImpl("service.impl")).execute();
     }
 
     private void generateByTables(String packageName, String... tableNames) {

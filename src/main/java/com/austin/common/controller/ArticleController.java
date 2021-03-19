@@ -16,7 +16,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -41,37 +43,32 @@ public class ArticleController {
     /**
      * paramType = "query"必须加上，否则前端调试无法传参
      * */
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "Integer"),
-            @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "Integer"),
-            @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "Integer"),
-            @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "type", value = "文章类型", required = false, dataType = "Integer"),
-    })
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "Integer"), @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "Integer"), @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "Integer"), @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "type", value = "文章类型", required = false, dataType = "Integer"),})
     @GetMapping("/selectByPage")
-    private Result getArticleByPage(Page<Article> page, String keyword, Integer type,Integer isDelete){
+    private Result getArticleByPage(@NotNull Page<Article> page, String keyword, Integer type, Integer isDelete) {
         QueryWrapper<Article> ew = new QueryWrapper<>();
-        if(StringUtils.isNotBlank(keyword)){
-            ew.and( wrapper -> wrapper.like("title",keyword).or().like("author",keyword));
+        if (StringUtils.isNotBlank(keyword)) {
+            ew.and(wrapper -> wrapper.like("title", keyword).or().like("author", keyword));
         }
-        if(null != type){
-            ew.eq("type",type);
+        if (null != type) {
+            ew.eq("type", type);
         }
-        if(null != isDelete){
-            ew.eq("is_delete",isDelete);
+        if (null != isDelete) {
+            ew.eq("is_delete", isDelete);
         }
         ew.orderByDesc("ctime");
-        page = this.service.page(page,ew);
-        page.getRecords().forEach(e->{e.setContent("");});
+        page = this.service.page(page, ew);
+        page.getRecords().forEach(e -> {
+            e.setContent("");
+        });
         return Result.success(page);
     }
 
     //ID单查
-    @ApiImplicitParams(
-            {@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),
-    })
-    @GetMapping(value = "/selectById",params = {"id"})
-    private Result getArticleByID(@NotBlank String id){
+    @ApiOperation(value = "ID查询文章", notes = "ID查询文章")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
+    @GetMapping(value = "/selectById", params = {"id"})
+    private Result getArticleByID(@NotBlank String id) {
         Article ae = this.service.getById(id);
         return Result.success(ae);
     }

@@ -11,8 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -33,15 +31,17 @@ public class UserController {
 
     //分页查询
     @GetMapping("/selectByPage")
-    private Result getDeptByPage(Page<User> page, String keyword){
+    private Result getDeptByPage(Page<User> page, String keyword, Integer isDelete) {
 
-        if(StringUtils.isNotBlank(keyword)){
-            QueryWrapper<User> ew = new QueryWrapper();
-            ew.and( wrapper -> wrapper.like("username",keyword).or().like("realname",keyword));
-            page = service.page(page,ew);
-        }else{
-            page = service.page(page);
+        QueryWrapper<User> ew = new QueryWrapper();
+        if (StringUtils.isNotBlank(keyword)) {
+            ew.and(wrapper -> wrapper.like("username", keyword).or().like("realname", keyword));
         }
+        if (null != isDelete) {
+            ew.eq("is_delete", isDelete);
+        }
+        ew.orderByDesc("ctime");
+        page = service.page(page, ew);
         return Result.success(page);
     }
 

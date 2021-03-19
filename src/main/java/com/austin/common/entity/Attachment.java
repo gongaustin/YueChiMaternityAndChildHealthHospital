@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @TableName("busi_attachment")
 public class Attachment implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 编号UUID
      */
-      private String id;
+    private String id;
 
     /**
      * 附件名称
@@ -104,13 +104,6 @@ public class Attachment implements Serializable {
 
     @Override
     public String toString() {
-        return "Attachment{" +
-        "id=" + id +
-        ", fileName=" + fileName +
-        ", ext=" + ext +
-        ", url=" + url +
-        ", ctime=" + ctime +
-        ", isDelete=" + isDelete +
-        "}";
+        return "Attachment{" + "id=" + id + ", fileName=" + fileName + ", ext=" + ext + ", url=" + url + ", ctime=" + ctime + ", isDelete=" + isDelete + "}";
     }
 }

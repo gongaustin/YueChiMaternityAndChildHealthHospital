@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @TableName("upms_dept")
 public class Dept implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * UUID
      */
-      private String id;
+    private String id;
 
     /**
      * 科室编号
@@ -195,20 +195,6 @@ public class Dept implements Serializable {
 
     @Override
     public String toString() {
-        return "Dept{" +
-        "id=" + id +
-        ", deptNo=" + deptNo +
-        ", deptName=" + deptName +
-        ", leaderDoctorId=" + leaderDoctorId +
-        ", description=" + description +
-        ", contact=" + contact +
-        ", addr=" + addr +
-        ", ctime=" + ctime +
-        ", photoAttachmentId=" + photoAttachmentId +
-        ", type=" + type +
-        ", isImportant=" + isImportant +
-        ", isDelete=" + isDelete +
-        ", backup=" + backup +
-        "}";
+        return "Dept{" + "id=" + id + ", deptNo=" + deptNo + ", deptName=" + deptName + ", leaderDoctorId=" + leaderDoctorId + ", description=" + description + ", contact=" + contact + ", addr=" + addr + ", ctime=" + ctime + ", photoAttachmentId=" + photoAttachmentId + ", type=" + type + ", isImportant=" + isImportant + ", isDelete=" + isDelete + ", backup=" + backup + "}";
     }
 }

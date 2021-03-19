@@ -3,8 +3,7 @@ package com.austin.common.core.shiro;
 import org.apache.shiro.authc.AuthenticationToken;
 
 /**
- * @Description:
- * 实现JWTToken
+ * @Description: 实现JWTToken
  * JWTToken差不多就是Shiro用户名密码的载体。
  * 因为我们是前后端分离，服务器无需保存用户状态，所以不需要RememberMe这类功能，我们简单的实现下AuthenticationToken接口即可。
  * 因为token自己已经包含了用户名等信息，所以这里我就弄了一个字段。

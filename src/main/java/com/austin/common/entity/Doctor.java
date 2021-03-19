@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author AustinGJ
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @TableName("busi_doctor")
 public class Doctor implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * UUID
      */
-      private String id;
+    private String id;
 
     /**
      * 医生姓名
@@ -208,21 +208,6 @@ public class Doctor implements Serializable {
 
     @Override
     public String toString() {
-        return "Doctor{" +
-        "id=" + id +
-        ", name=" + name +
-        ", sex=" + sex +
-        ", avatarAttachmentId=" + avatarAttachmentId +
-        ", deptId=" + deptId +
-        ", competent=" + competent +
-        ", title=" + title +
-        ", specialTalent=" + specialTalent +
-        ", visitTime=" + visitTime +
-        ", contact=" + contact +
-        ", description=" + description +
-        ", isSpecialist=" + isSpecialist +
-        ", ctime=" + ctime +
-        ", isDelete=" + isDelete +
-        "}";
+        return "Doctor{" + "id=" + id + ", name=" + name + ", sex=" + sex + ", avatarAttachmentId=" + avatarAttachmentId + ", deptId=" + deptId + ", competent=" + competent + ", title=" + title + ", specialTalent=" + specialTalent + ", visitTime=" + visitTime + ", contact=" + contact + ", description=" + description + ", isSpecialist=" + isSpecialist + ", ctime=" + ctime + ", isDelete=" + isDelete + "}";
     }
 }

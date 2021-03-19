@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @TableName("busi_article")
 public class Article implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * UUID
      */
-      private String id;
+    private String id;
 
     /**
      * 标题
@@ -143,16 +143,6 @@ public class Article implements Serializable {
 
     @Override
     public String toString() {
-        return "Article{" +
-        "id=" + id +
-        ", title=" + title +
-        ", type=" + type +
-        ", author=" + author +
-        ", content=" + content +
-        ", ctime=" + ctime +
-        ", articleAttachmentId=" + articleAttachmentId +
-        ", isDelete=" + isDelete +
-        ", backup=" + backup +
-        "}";
+        return "Article{" + "id=" + id + ", title=" + title + ", type=" + type + ", author=" + author + ", content=" + content + ", ctime=" + ctime + ", articleAttachmentId=" + articleAttachmentId + ", isDelete=" + isDelete + ", backup=" + backup + "}";
     }
 }
