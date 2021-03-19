@@ -34,7 +34,7 @@ public class DeptController {
     private IDeptService service;
 
     //分页查询
-    @GetMapping("/page")
+    @GetMapping("/selectByPage")
     private Result getDeptByPage(Page<Dept> page, String keyword){
 
         if(StringUtils.isNotBlank(keyword)){

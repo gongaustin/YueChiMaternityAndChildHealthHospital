@@ -32,7 +32,7 @@ public class UserController {
     private IUserService service;
 
     //分页查询
-    @GetMapping("/page")
+    @GetMapping("/selectByPage")
     private Result getDeptByPage(Page<User> page, String keyword){
 
         if(StringUtils.isNotBlank(keyword)){

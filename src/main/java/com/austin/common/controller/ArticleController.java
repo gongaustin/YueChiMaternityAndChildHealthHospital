@@ -48,7 +48,7 @@ public class ArticleController {
             @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "文章类型", required = false, dataType = "Integer"),
     })
-    @GetMapping("/page")
+    @GetMapping("/selectByPage")
     private Result getArticleByPage(Page<Article> page, String keyword, Integer type,Integer isDelete){
         QueryWrapper<Article> ew = new QueryWrapper<>();
         if(StringUtils.isNotBlank(keyword)){
@@ -70,7 +70,7 @@ public class ArticleController {
     @ApiImplicitParams(
             {@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),
     })
-    @GetMapping(value = "/one",params = {"id"})
+    @GetMapping(value = "/selectById",params = {"id"})
     private Result getArticleByID(@NotBlank String id){
         Article ae = this.service.getById(id);
         return Result.success(ae);

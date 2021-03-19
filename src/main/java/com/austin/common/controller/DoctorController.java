@@ -35,7 +35,7 @@ public class DoctorController {
     private IDoctorService service;
 
     //分页查询
-    @GetMapping("/page")
+    @GetMapping("/selectByPage")
     private Result getDeptByPage(Page<Doctor> page, String keyword){
 
         if(StringUtils.isNotBlank(keyword)){
