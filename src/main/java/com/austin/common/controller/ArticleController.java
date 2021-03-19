@@ -4,7 +4,6 @@ package com.austin.common.controller;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Article;
 import com.austin.common.service.IArticleService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -15,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -44,18 +41,23 @@ public class ArticleController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "Integer"),
             @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "Integer"),
             @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "文章类型", required = false, dataType = "Integer"),
     })
     @GetMapping("/page")
-    private Result getArticleByPage(Page<Article> page,String keyword, Integer type){
-        QueryWrapper<Article> ew = new QueryWrapper();
+    private Result getArticleByPage(Page<Article> page, String keyword, Integer type,Integer isDelete){
+        QueryWrapper<Article> ew = new QueryWrapper<>();
         if(StringUtils.isNotBlank(keyword)){
             ew.and( wrapper -> wrapper.like("title",keyword).or().like("author",keyword));
         }
         if(null != type){
-            ew.and(wrapper -> wrapper.eq("type",type));
+            ew.eq("type",type);
         }
+        if(null != isDelete){
+            ew.eq("is_delete",isDelete);
+        }
+        ew.orderByDesc("ctime");
         page = this.service.page(page,ew);
         page.getRecords().forEach(e->{e.setContent("");});
         return Result.success(page);
