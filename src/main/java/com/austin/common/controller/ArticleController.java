@@ -12,9 +12,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.validation.constraints.NotBlank;
 
 
 /**
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/article")
 @Api("文章前端控制器")
+@Validated
 public class ArticleController {
 
     @Autowired
@@ -61,6 +64,16 @@ public class ArticleController {
         page = this.service.page(page,ew);
         page.getRecords().forEach(e->{e.setContent("");});
         return Result.success(page);
+    }
+
+    //ID单查
+    @ApiImplicitParams(
+            {@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),
+    })
+    @GetMapping(value = "/one",params = {"id"})
+    private Result getArticleByID(@NotBlank String id){
+        Article ae = this.service.getById(id);
+        return Result.success(ae);
     }
 
 }
