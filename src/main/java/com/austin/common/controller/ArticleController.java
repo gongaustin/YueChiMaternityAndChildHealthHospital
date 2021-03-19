@@ -8,6 +8,9 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,16 +37,27 @@ public class ArticleController {
     private IArticleService service;
 
     //分页查询
+    @ApiOperation(value = "分页查询文章", notes = "分页查询文章")
+    /**
+     * paramType = "query"必须加上，否则前端调试无法传参
+     * */
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "type", value = "文章类型", required = false, dataType = "Integer"),
+    })
     @GetMapping("/page")
-    private Result getArticleByPage(Page page,String keyword){
-
+    private Result getArticleByPage(Page<Article> page,String keyword, Integer type){
+        QueryWrapper<Article> ew = new QueryWrapper();
         if(StringUtils.isNotBlank(keyword)){
-            QueryWrapper<Article> ew = new QueryWrapper();
             ew.and( wrapper -> wrapper.like("title",keyword).or().like("author",keyword));
-            page = service.page(page,ew);
-        }else{
-            page = service.page(page);
         }
+        if(null != type){
+            ew.and(wrapper -> wrapper.eq("type",type));
+        }
+        page = this.service.page(page,ew);
+        page.getRecords().forEach(e->{e.setContent("");});
         return Result.success(page);
     }
 
