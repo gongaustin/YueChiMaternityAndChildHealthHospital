@@ -169,17 +169,17 @@
 
 
 
-        <!-- swagger前端测试、参数mark包（省去写markdown的麻烦）-->
+        <!-- swagger前端测试、参数mark包（省去写markdown的麻烦）2.9.2有BUG-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>3.0.0</version>
         </dependency>
         <!-- swagger-ui -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>3.0.0</version>
         </dependency>
         <!-- 优化界面UI -->
         <dependency>
