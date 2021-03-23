@@ -3,8 +3,6 @@ package com.austin.common.controller;
 
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
-import com.austin.common.core.constant.YiYuanConstant;
-import com.austin.common.entity.Article;
 import com.austin.common.entity.Dept;
 import com.austin.common.service.IDeptService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -13,7 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
