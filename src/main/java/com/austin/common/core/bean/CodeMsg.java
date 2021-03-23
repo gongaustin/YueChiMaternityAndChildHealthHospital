@@ -14,6 +14,8 @@ public class CodeMsg {
     public static CodeMsg MOBILE_ERROR = new CodeMsg(50003, "手机号格式错误");
     public static CodeMsg NO_USER = new CodeMsg(50004, "用户不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(50005, "密码错误");
+    public static CodeMsg OPERATE_FAIL = new CodeMsg(50006, "操作失败");
+    public static CodeMsg OPERATE_SUCCESS = new CodeMsg(200, "操作成功");
     private int code;
     private String msg;
 

@@ -1,17 +1,24 @@
 package com.austin.common.controller;
 
 
+import com.austin.common.core.bean.CodeMsg;
+import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Attachment;
 import com.austin.common.service.IAttachmentService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,8 +47,14 @@ public class AttachmentController {
     @Value("${prop.upload-folder}")
     private String FILE_PATH;
 
-
-    private Attachment writeFile(MultipartFile file) {
+    @ApiOperation(value = "上传文件", notes = "上传文件")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "form", name = "file", value = "文件对象", required = true, dataType = "__file"),
+            }
+    )
+    @PostMapping(value = "/upload")
+    private Result writeFile(@NotNull MultipartFile file) {
         Attachment at = new Attachment();
         byte[] bytes;
         Path result = null;
@@ -62,10 +75,10 @@ public class AttachmentController {
             this.service.save(at);
             result = Files.write(Paths.get(FILE_PATH + "/" + nowDate + "/" + newFileName), bytes);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            return Result.message(CodeMsg.OPERATE_FAIL);
         }
         System.out.println(result.getFileName());
-        return at;
+        return Result.message(CodeMsg.OPERATE_SUCCESS);
     }
 
 

@@ -1,7 +1,10 @@
 package com.austin.common.controller;
 
 
+import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
+import com.austin.common.core.constant.YiYuanConstant;
+import com.austin.common.entity.Article;
 import com.austin.common.entity.Dept;
 import com.austin.common.service.IDeptService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -10,13 +13,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -36,11 +39,19 @@ public class DeptController {
     private IDeptService service;
 
     //分页查询
-    @ApiOperation(value = "分页查询部门", notes = "分页查询部门")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "Integer"), @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "Integer"), @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "Integer"),})
+    @ApiOperation(value = "分页查询科室", notes = "分页查询科室")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
+            }
+            )
     @GetMapping("/selectByPage")
-    private Result getDeptByPage(Page<Dept> page, String keyword, Integer isDelete) {
-
+    private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete) {
+        Page<Dept> page = new Page<>();
+        page.setCurrent(current);
+        page.setSize(size);
         QueryWrapper<Dept> ew = new QueryWrapper();
         if (StringUtils.isNotBlank(keyword)) {
             ew.and(wrapper -> wrapper.like("dept_name", keyword).or().like("description", keyword));
@@ -62,6 +73,76 @@ public class DeptController {
     private Result getDoctorByID(@NotBlank String id) {
         Dept dt = this.service.getById(id);
         return Result.success(dt);
+    }
+
+
+
+
+    //ID逻辑删除
+    @ApiOperation(value = "新增科室", notes = "新增科室")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "deptName", value = "科室名", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "description", value = "科室描述", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "type", value = "科室类型", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "contact", value = "科室联系方式", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点科室", required = true, dataType = "int"),
+            }
+    )
+    @PostMapping(value = "/add", params = {"title","type","content"})
+    private Result deleteLogicById(@NotNull Dept dept) {
+        boolean b = this.service.save(dept);
+        if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
+        return Result.message(CodeMsg.OPERATE_FAIL);
+    }
+
+
+    @ApiOperation(value = "修改科室信息", notes = "修改科室信息")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "文章ID", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptName", value = "科室名", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "description", value = "科室描述", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "type", value = "科室类型", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "contact", value = "科室联系方式", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点科室", required = false, dataType = "int"),
+            }
+    )
+    @PostMapping(value = "/update", params = {"id"})
+    private Result updateById(@NotNull Dept dept) {
+        boolean b = this.service.save(dept);
+        if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
+        return Result.message(CodeMsg.OPERATE_FAIL);
+    }
+    //ID逻辑删除
+
+
+    //ID逻辑删除
+    @ApiOperation(value = "删除科室(逻辑删除)", notes = "删除科室(逻辑删除)")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "科室ID", required = true, dataType = "String"),})
+    @PostMapping(value = "/deleteLogicById", params = {"id"})
+    private Result deleteLogicById(@NotBlank String id) {
+        Dept dept = new Dept();
+        dept.setId(id);
+        dept.setIsDelete(1);
+        boolean b = this.service.updateById(dept);
+        if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
+        return Result.message(CodeMsg.OPERATE_FAIL);
+    }
+
+
+    //ID物理删除
+    @ApiOperation(value = "删除科室(物理删除)", notes = "删除科室(物理删除)")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "科室ID", required = true, dataType = "String"),
+            }
+    )
+    @PostMapping(value = "/deletePhysicsById", params = {"id"})
+    private Result deletePhysicsById(@NotBlank String id) {
+        boolean b = this.service.removeById(id);
+        if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
+        return Result.message(CodeMsg.OPERATE_FAIL);
     }
 
 }

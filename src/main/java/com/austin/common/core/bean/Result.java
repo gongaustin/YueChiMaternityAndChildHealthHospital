@@ -41,7 +41,7 @@ public class Result<T> {
      * @param <T>
      * @return
      */
-    public static <T> Result<T> fail(CodeMsg mg) {
+    public static <T> Result<T> message(CodeMsg mg) {
         return new Result<T>(mg);
     }
 
