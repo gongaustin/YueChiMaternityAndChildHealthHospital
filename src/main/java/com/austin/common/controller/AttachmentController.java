@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,8 +45,10 @@ public class AttachmentController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private IAttachmentService service;
-    @Value("${prop.upload-folder}")
+    @Value("${file.upload-folder}")
     private String FILE_PATH;
+    @Value("${file.pre-visit-url}")
+    private String PRE_VISIT_URL;
 
     @ApiOperation(value = "上传文件", notes = "上传文件")
     @ApiImplicitParams(
@@ -71,13 +74,33 @@ public class AttachmentController {
             if (!Files.isWritable(path)) Files.createDirectories(path);
             at.setCtime(LocalDateTime.now());
             at.setExt(fileSuffix);
-            at.setUrl("http://new.sevencai.com/ucenter/upload/file" + "/" + nowDate + "/" + newFileName);
+            at.setUrl(PRE_VISIT_URL + "/" + nowDate + "/" + newFileName);
             this.service.save(at);
             result = Files.write(Paths.get(FILE_PATH + "/" + nowDate + "/" + newFileName), bytes);
         } catch (IOException e) {
             return Result.message(CodeMsg.OPERATE_FAIL);
         }
-        System.out.println(result.getFileName());
+        return Result.success(at.getId());
+    }
+
+
+    @ApiOperation(value = "删除文件", notes = "删除文件")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "文件ID", required = true, dataType = "String"),
+            }
+    )
+    @PostMapping(value = "/delete" , params = {"id"})
+    private Result deleteFile(@NotNull String id){
+        Attachment attachment = this.service.getById(id);
+
+
+        File file = new File(attachment.getUrl());
+
+        boolean result = file.delete();
+
+        if(result) this.service.removeById(id);
+
         return Result.message(CodeMsg.OPERATE_SUCCESS);
     }
 
