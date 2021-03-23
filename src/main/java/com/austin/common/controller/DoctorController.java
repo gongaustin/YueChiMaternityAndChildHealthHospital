@@ -82,12 +82,12 @@ public class DoctorController {
                     @ApiImplicitParam(paramType = "query", name = "name", value = "姓名", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "sex", value = "性别", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "deptId", value = "科室ID", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "competent", value = "职称", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "competent", value = "职称", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "title", value = "职务", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "specialTalent", value = "专长", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "specialTalent", value = "专长", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "visitTime", value = "出诊时间", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "contact", value = "联系方式", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "description", value = "简介", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "description", value = "简介", required = false, dataType = "String"),
             }
     )
     @PostMapping(value = "/add", params = {"name","type","content"})
@@ -106,7 +106,7 @@ public class DoctorController {
                     @ApiImplicitParam(paramType = "query", name = "deptId", value = "科室ID", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "competent", value = "职称", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "title", value = "职务", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "specialTalent", value = "专长", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "specialTalent", value = "专长", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "visitTime", value = "出诊时间", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "contact", value = "联系方式", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "description", value = "简介", required = false, dataType = "String"),

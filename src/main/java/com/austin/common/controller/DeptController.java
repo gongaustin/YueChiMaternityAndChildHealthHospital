@@ -83,10 +83,12 @@ public class DeptController {
                     @ApiImplicitParam(paramType = "query", name = "description", value = "科室描述", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "type", value = "科室类型", required = true, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "contact", value = "科室联系方式", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点科室", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "leaderDoctorId", value = "负责人ID", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点科室(0:不是,1:是)", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "addr", value = "科室地址", required = true, dataType = "String"),
             }
     )
-    @PostMapping(value = "/add", params = {"title","type","content"})
+    @PostMapping(value = "/add", params = {"deptName","type","description"})
     private Result deleteLogicById(@NotNull Dept dept) {
         boolean b = this.service.save(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
