@@ -48,7 +48,7 @@ public class DoctorController {
             }
             )
     @GetMapping("/selectByPage")
-    private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete) {
+    private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete) {
         Page<Doctor> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);

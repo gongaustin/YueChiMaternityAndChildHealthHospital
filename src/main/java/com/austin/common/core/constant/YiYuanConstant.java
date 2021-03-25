@@ -7,5 +7,7 @@ package com.austin.common.core.constant;
  */
 public interface YiYuanConstant {
     //医院名称
-    final String HOSPITAL_NAME = "岳池县妇幼保健院";
+    String HOSPITAL_NAME = "岳池县妇幼保健院";
+    String RESET_PASSWORD = "123456";
+
 }
