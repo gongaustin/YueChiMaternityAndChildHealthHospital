@@ -1,4 +1,4 @@
-package com.austin.common.core.shiro;
+package com.austin.common.core.jwt;
 
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
 
         //如果不拦截请注销此代码
-//        getSubject(request, response).login(token);
+        getSubject(request, response).login(token);  //和@Requires...一起出现，否则会报错,注销后rest方法前请不要加@Requires...注解控制权限
         // 如果没有抛出异常则代表登入成功，返回true
         return true;
     }

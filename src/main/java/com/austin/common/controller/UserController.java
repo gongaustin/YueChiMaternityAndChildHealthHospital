@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +35,14 @@ import javax.validation.constraints.NotNull;
 @Api("管理员用户前端控制器")
 public class UserController {
 
+    /**
+     * 加上@RequiresAuthentication注解后Spring只扫描public，private扫描不到，大坑
+     * spring注解扫描不到：
+     * 因为我在controller中所有的接口方法都是private的，spring只扫描 public 的。
+     * */
+
     @Autowired
-    private IUserService service;
+    public IUserService service;
 
     //分页查询
     @ApiOperation(value = "新增管理员", notes = "新增管理员")
@@ -50,7 +58,7 @@ public class UserController {
     )
     @PostMapping(value = "/add", params = {"username","username","username"})
 
-    private Result addUser(@NotNull User user) {
+    public Result addUser(@NotNull User user) {
         QueryWrapper<User> ew = new QueryWrapper<>();
         ew.eq("username",user.getUsername());
         User userExist = this.service.getOne(ew);
@@ -71,7 +79,8 @@ public class UserController {
             }
     )
     @GetMapping("/selectByPage")
-    private Result getUserByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword) {
+    @RequiresAuthentication
+    public Result getUserByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword) {
         Page<User> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -90,7 +99,7 @@ public class UserController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
     @GetMapping(value = "/selectById", params = {"id"})
 
-    private Result getUserByID(@NotBlank String id) {
+    public Result getUserByID(@NotBlank String id) {
         User ur = this.service.getById(id);
         return Result.success(ur);
     }
@@ -109,7 +118,7 @@ public class UserController {
     )
     @PostMapping(value = "/update", params = {"id"})
 
-    private Result updateById(@NotNull User user) {
+    public Result updateById(@NotNull User user) {
         if(StringUtils.isNotBlank(user.getUsername())) {
             QueryWrapper<User> ew = new QueryWrapper();
             ew.eq("username","admin");
@@ -130,7 +139,7 @@ public class UserController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "用户ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
 
-    private Result deleteLogicById(@NotBlank String id) {
+    public Result deleteLogicById(@NotBlank String id) {
         User user = this.service.getById(id);
         if(StringUtils.endsWithIgnoreCase("admin",user.getUsername())){
             return Result.message(CodeMsg.ADMIN_DELETE_ERROR);
@@ -150,7 +159,7 @@ public class UserController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    private Result deletePhysicsById(@NotBlank String id) {
+    public Result deletePhysicsById(@NotBlank String id) {
         User user = this.service.getById(id);
         if(StringUtils.endsWithIgnoreCase("admin",user.getUsername())){
             return Result.message(CodeMsg.ADMIN_DELETE_ERROR);
@@ -170,7 +179,7 @@ public class UserController {
     )
     @PostMapping(value = "/modifyPassword",params = {"id","oldPassword","newPassword"})
 
-    private Result modifyPassword(@NotBlank String id,@NotBlank String oldPassword,@NotBlank String newPassword){
+    public Result modifyPassword(@NotBlank String id,@NotBlank String oldPassword,@NotBlank String newPassword){
         User user = this.service.getById(id);
         if(user.getPassword().equals(Md5.md5Encode(oldPassword))){
             user.setPassword(Md5.md5Encode(newPassword));
@@ -190,7 +199,7 @@ public class UserController {
     )
     @PostMapping(value = "/resetPassword",params = {"id"})
 
-    private Result resetPassword(@NotBlank String id){
+    public Result resetPassword(@NotBlank String id){
         User user = this.service.getById(id);
         user.setPassword(Md5.md5Encode(YiYuanConstant.RESET_PASSWORD));
         boolean result = this.service.updateById(user);

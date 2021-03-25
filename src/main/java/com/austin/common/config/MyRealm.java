@@ -1,5 +1,6 @@
-package com.austin.common.core.shiro;
+package com.austin.common.config;
 
+import com.austin.common.core.jwt.JWTToken;
 import com.austin.common.entity.User;
 import com.austin.common.service.IUserService;
 import com.austin.common.utils.JWTUtil;
@@ -12,7 +13,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -22,10 +23,10 @@ import javax.annotation.Resource;
  * @Date: Created in 16:56 2021/1/18
  */
 
-@Service
+@Component("myRealm")
 public class MyRealm extends AuthorizingRealm {
 
-    private static final Logger LOGGER = LogManager.getLogger(com.austin.common.core.shiro.MyRealm.class);
+    private static final Logger LOGGER = LogManager.getLogger(MyRealm.class);
     @Resource
     private IUserService service;
 
