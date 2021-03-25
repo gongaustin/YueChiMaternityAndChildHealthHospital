@@ -4,8 +4,6 @@ package com.austin.common.controller;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.core.constant.YiYuanConstant;
-import com.austin.common.entity.Article;
-import com.austin.common.entity.Doctor;
 import com.austin.common.entity.User;
 import com.austin.common.service.IUserService;
 import com.austin.common.utils.Md5;
@@ -16,7 +14,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
