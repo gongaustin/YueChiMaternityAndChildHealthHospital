@@ -169,19 +169,19 @@
 
 
 
-        <!-- swagger前端测试、参数mark包（省去写markdown的麻烦）2.9.2有BUG-->
+        <!-- Swagger前端测试、参数mark包（省去写markdown的麻烦）低版本和Springboot新版本冲突-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
         </dependency>
-        <!-- swagger-ui -->
+        <!-- Swagger-ui -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-        <!-- 优化界面UI -->
+        <!-- Swagger优化界面UI -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
