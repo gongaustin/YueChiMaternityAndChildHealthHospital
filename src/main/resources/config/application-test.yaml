@@ -11,9 +11,9 @@ spring:
       uri: mongodb://120.24.241.113:27017
   #mysql config
   datasource:
-    password: 123
     url: jdbc:mysql://127.0.0.1:3306/yuechi_hospital?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&&useSSL=true
     username: root
+    password: 123
   #redis config
   redis:
     database: 1
