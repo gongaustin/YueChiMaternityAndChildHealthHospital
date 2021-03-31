@@ -2,10 +2,13 @@ package com.austin.common.config;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.Formatter;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.text.ParseException;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -34,6 +38,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
+    /**
+     * 将前端空字符串设置为null,避免报错
+     * */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatterForFieldType(String.class, new Formatter<String>() {
+            @Override
+            public String parse(String text, Locale locale) throws ParseException {
+                if(StringUtils.isBlank(text)){
+                    return null;
+                }
+                return text;
+            }
+
+            @Override
+            public String print(String object, Locale locale) {
+                return object;
+            }
+        });
     }
 
 

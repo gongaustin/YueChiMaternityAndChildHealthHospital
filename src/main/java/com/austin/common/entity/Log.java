@@ -1,5 +1,7 @@
 package com.austin.common.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -20,6 +22,7 @@ public class Log implements Serializable {
     /**
      * 编号
      */
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
     /**

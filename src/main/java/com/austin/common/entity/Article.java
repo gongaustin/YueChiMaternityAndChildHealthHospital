@@ -1,6 +1,8 @@
 package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +26,7 @@ public class Article implements Serializable {
     /**
      * UUID
      */
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
     /**
