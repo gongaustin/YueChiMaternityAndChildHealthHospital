@@ -253,6 +253,12 @@
             <version>2.0.1.Final</version>
         </dependency>
 
+        <!--热启动-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
     </dependencies>
 
 
