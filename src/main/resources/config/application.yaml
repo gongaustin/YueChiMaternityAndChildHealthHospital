@@ -33,6 +33,7 @@ mybatis-plus:
 #mysql connection pool
 spring:
   datasource:
+    #Java1.8后
     driver-class-name: com.mysql.cj.jdbc.Driver
     #tomcat config
     tomcat:
