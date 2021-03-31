@@ -1,9 +1,11 @@
+#共有配置
+
 #server config
 server:
   port: 2222
   servlet:
     context-path: /yuechi
-#log config(过滤Swagger2Bug引起的报错)
+#log config(过滤Swagger2 Bug引起的报错)
 logging:
   level:
     io:
