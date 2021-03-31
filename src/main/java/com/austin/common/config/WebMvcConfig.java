@@ -41,7 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * 将前端空字符串设置为null,避免报错
+     * 将前端空字符串设置为null,避免报错,swagger2测试传参遇到的坑
      * */
     @Override
     public void addFormatters(FormatterRegistry registry) {
