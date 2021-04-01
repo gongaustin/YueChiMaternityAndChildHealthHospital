@@ -10,6 +10,8 @@ import com.austin.common.utils.JWTUtil;
 import com.austin.common.utils.Md5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -60,10 +62,7 @@ public class LoginController {
         if(!user.getPassword().equals(Md5.md5Encode(password))) return Result.message(CodeMsg.PASSWORD_ERROR);
         //认证生成
         String token = JWTUtil.sign(user.getId(), user.getUsername());
-        Map<String,String> loginMap = Maps.newConcurrentMap();
-        loginMap.put("Authorization",token);
-        loginMap.put("msg","login success!");
-        return Result.success(loginMap);
+        return Result.success(ImmutableMap.of("Authorization",token,"msg","login success!"));
     }
 
 }
