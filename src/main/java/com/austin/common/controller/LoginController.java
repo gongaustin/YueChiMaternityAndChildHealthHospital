@@ -52,8 +52,13 @@ public class LoginController {
         QueryWrapper<User> ew = new QueryWrapper();
         ew.eq("username",username);
         User user = this.service.getOne(ew);
+        //查询不到用户
         if(user==null) return Result.message(CodeMsg.NO_USER);
+        //用户被禁用
+        if(user.getIsDelete() == 1) return Result.message(CodeMsg.USER_FORBIDDEN);
+        //密码比对
         if(!user.getPassword().equals(Md5.md5Encode(password))) return Result.message(CodeMsg.PASSWORD_ERROR);
+        //认证生成
         String token = JWTUtil.sign(user.getId(), user.getUsername());
         Map<String,String> loginMap = Maps.newConcurrentMap();
         loginMap.put("Authorization",token);
