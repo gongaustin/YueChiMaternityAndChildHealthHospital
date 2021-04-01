@@ -56,7 +56,7 @@ public class LoginController {
         if(user==null) return Result.message(CodeMsg.NO_USER);
         //用户被禁用
         if(user.getIsDelete() == 1) return Result.message(CodeMsg.USER_FORBIDDEN);
-        //
+        //Password
         if(!user.getPassword().equals(Md5.md5Encode(password))) return Result.message(CodeMsg.PASSWORD_ERROR);
         //认证生成
         String token = JWTUtil.sign(user.getId(), user.getUsername());
