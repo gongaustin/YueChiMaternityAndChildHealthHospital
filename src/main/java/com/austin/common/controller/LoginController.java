@@ -51,7 +51,7 @@ public class LoginController {
     )
     @PostMapping(params = {"username","password"})
     private Result login(@NotBlank String username,@NotBlank String password){
-        QueryWrapper<User> ew = new QueryWrapper();
+        QueryWrapper<User> ew = new QueryWrapper<>();
         ew.eq("username",username);
         User user = this.service.getOne(ew);
         //查询不到用户
