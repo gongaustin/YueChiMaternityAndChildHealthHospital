@@ -1,4 +1,4 @@
-package com.austin.common.core.jwt;
+package com.austin.common.config.jwt;
 
 import org.apache.shiro.authc.AuthenticationToken;
 

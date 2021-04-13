@@ -1,4 +1,4 @@
-package com.austin.common.config;
+package com.austin.common.config.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;

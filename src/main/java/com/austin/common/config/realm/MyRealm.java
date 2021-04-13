@@ -1,6 +1,6 @@
-package com.austin.common.config;
+package com.austin.common.config.realm;
 
-import com.austin.common.core.jwt.JWTToken;
+import com.austin.common.config.jwt.JWTToken;
 import com.austin.common.entity.User;
 import com.austin.common.service.IUserService;
 import com.austin.common.utils.JWTUtil;

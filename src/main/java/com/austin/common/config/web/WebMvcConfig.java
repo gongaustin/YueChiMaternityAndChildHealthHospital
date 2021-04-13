@@ -1,4 +1,4 @@
-package com.austin.common.config;
+package com.austin.common.config.web;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

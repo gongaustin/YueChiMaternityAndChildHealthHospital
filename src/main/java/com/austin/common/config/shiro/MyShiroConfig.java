@@ -1,7 +1,8 @@
-package com.austin.common.config;
+package com.austin.common.config.shiro;
 
 
-import com.austin.common.core.jwt.JWTFilter;
+import com.austin.common.config.realm.MyRealm;
+import com.austin.common.config.jwt.JWTFilter;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

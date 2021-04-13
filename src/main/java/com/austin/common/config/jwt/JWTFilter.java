@@ -1,4 +1,4 @@
-package com.austin.common.core.jwt;
+package com.austin.common.config.jwt;
 
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
