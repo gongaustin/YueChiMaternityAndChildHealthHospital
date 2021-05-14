@@ -85,7 +85,7 @@ public class ModuleController {
             @ApiImplicitParam(paramType = "query", name = "moduleName", value = "模块名称", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "priority", value = "排序规则", required = false, dataType = "int"),
     })
-    @GetMapping(value = "/addModule", params = {"id"})
+    @GetMapping(value = "/addModule")
     private Result getModuleByID(@NotBlank String parentModuleName,@NotNull Module module) {
         QueryWrapper<Module> ew = new QueryWrapper<>();
         ew.eq("module_name",parentModuleName);
@@ -100,13 +100,13 @@ public class ModuleController {
     }
 
 
-    //ID单查
+    //修改
 
     @ApiOperation(value = "修改模块信息", notes = "修改模块信息")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "文章ID", required = true, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "ModuleName", value = "模块名称", required = false, dataType = "String"),})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "模块ID", required = true, dataType = "String"),})
     @PostMapping(value = "/update", params = {"id"})
     private Result updateById(@NotNull Module module) {
-        boolean b = this.service.save(module);
+        boolean b = this.service.updateById(module);
         if (b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }

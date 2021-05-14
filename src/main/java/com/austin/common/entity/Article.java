@@ -35,9 +35,9 @@ public class Article implements Serializable {
     private String title;
 
     /**
-     * 资讯类型（Java Enum类型）
+     * 所属模块ID
      */
-    private String type;
+    private String moduleId;
 
     /**
      * 作者
@@ -88,12 +88,12 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public String getType() {
-        return type;
+    public String getModuleId() {
+        return moduleId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
     }
 
     public String getAuthor() {
@@ -146,6 +146,6 @@ public class Article implements Serializable {
 
     @Override
     public String toString() {
-        return "Article{" + "id=" + id + ", title=" + title + ", type=" + type + ", author=" + author + ", content=" + content + ", ctime=" + ctime + ", articleAttachmentId=" + articleAttachmentId + ", isDelete=" + isDelete + ", backup=" + backup + "}";
+        return "Article{" + "id=" + id + ", title=" + title + ", moduleId=" + moduleId + ", author=" + author + ", content=" + content + ", ctime=" + ctime + ", articleAttachmentId=" + articleAttachmentId + ", isDelete=" + isDelete + ", backup=" + backup + "}";
     }
 }
