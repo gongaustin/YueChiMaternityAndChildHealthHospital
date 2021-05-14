@@ -65,11 +65,11 @@ public class ArticleController {
                     @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "type", value = "文章类型", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "moduleId", value = "所属模块ID", required = false, dataType = "String"),
             }
             )
     @GetMapping("/selectByPage")
-    private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer type, Integer isDelete) {
+    private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete) {
         Page<Article> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -77,8 +77,8 @@ public class ArticleController {
         if (StringUtils.isNotBlank(keyword)) {
             ew.and(wrapper -> wrapper.like("title", keyword).or().like("author", keyword));
         }
-        if (null != type) {
-            ew.eq("type", type);
+        if (StringUtils.isNotBlank(moduleId)) {
+            ew.eq("module_id", moduleId);
         }
         if (null != isDelete) {
             ew.eq("is_delete", isDelete);
