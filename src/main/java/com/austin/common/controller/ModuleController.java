@@ -3,6 +3,7 @@ package com.austin.common.controller;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Module;
+import com.austin.common.entity.vo.ModuleVo;
 import com.austin.common.service.IModuleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description:模块管理
@@ -37,7 +39,7 @@ public class ModuleController {
     //分页查询
     @ApiOperation(value = "查询子模块", notes = "查询子模块")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "moduleName", value = "父模块名称", required = false, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "parentId", value = "父模块ID", required = false, dataType = "String"),})
-    @GetMapping("/selectByList")
+    @GetMapping("/selectByParent")
     private Result getModuleByList(String moduleName, String parentId) {
 
         if (StringUtils.isAllBlank(moduleName, parentId)) return Result.message(CodeMsg.PARAMETER_ERROR);
@@ -123,6 +125,22 @@ public class ModuleController {
         boolean b = this.service.removeById(id);
         if (b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
+    }
+
+    //全部查出模块(没多少，不用搞太复杂)
+    @ApiOperation(value = "全部查出模块", notes = "全部查出模块")
+    @GetMapping("/selectAll")
+    private Result deletePhysicsById(){
+        QueryWrapper<Module> ew = new QueryWrapper();
+        ew.orderByAsc("priority");
+        List<ModuleVo> modules = this.service.selectVoList(ew);
+        List<ModuleVo> parentVos = modules.stream().filter(e->e.getLevel() == 1).collect(Collectors.toList());
+        for (int i = 0; i < parentVos.size(); i++) {
+            String parentId = parentVos.get(i).getId();
+            List<ModuleVo> sonVos = modules.stream().filter(e->parentId.equals(e.getParentId())).collect(Collectors.toList());
+            parentVos.get(i).getModuleList().addAll(sonVos);
+        }
+        return Result.success(parentVos);
     }
 
 }
