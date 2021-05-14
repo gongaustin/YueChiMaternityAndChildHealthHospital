@@ -20,6 +20,7 @@ public class CodeMsg {
     public static CodeMsg ADMIN_UPDATE_ERROR = new CodeMsg(50009, "更新失败,超级管理员用户名不允许修改");
     public static CodeMsg USER_ADD_ERROR = new CodeMsg(50010, "添加失败,该用户已经存在");
     public static CodeMsg MODIFY_PASSWORD_ERROR = new CodeMsg(50011, "修改失败,原密码错误,如忘记,请联系管理员!");
+    public static CodeMsg PARAMETER_ERROR = new CodeMsg(50012, "参数错误!");
     public static CodeMsg OPERATE_SUCCESS = new CodeMsg(200, "操作成功");
     private int code;
     private String msg;

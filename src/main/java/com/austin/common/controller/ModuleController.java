@@ -2,6 +2,7 @@ package com.austin.common.controller;
 
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
+import com.austin.common.entity.Dept;
 import com.austin.common.entity.Module;
 import com.austin.common.service.IModuleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @Description:模块管理
@@ -32,30 +34,39 @@ public class ModuleController {
     private IModuleService service;
 
     //分页查询
-    @ApiOperation(value = "分页查询科室", notes = "分页查询科室")
+    @ApiOperation(value = "查询模块", notes = "查询模块")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "moduleName", value = "父模块名称", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "parentId", value = "父模块ID", required = false, dataType = "String"),
             }
     )
-    @GetMapping("/selectByPage")
-    private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete) {
-        Page<Module> page = new Page<>();
-        page.setCurrent(current);
-        page.setSize(size);
-        QueryWrapper<Module> ew = new QueryWrapper();
-        if (StringUtils.isNotBlank(keyword)) {
-            ew.and(wrapper -> wrapper.like("dept_name", keyword).or().like("description", keyword));
-        }
-        if (null != isDelete) {
-            ew.eq("is_delete", isDelete);
-        }
-        ew.orderByDesc("ctime");
-        page = service.page(page);
+    @GetMapping("/selectByList")
+    private Result getModuleByList(String moduleName,String parentId) {
 
-        return Result.success(page);
+        if(StringUtils.isAllBlank(moduleName,parentId)) return Result.message(CodeMsg.PARAMETER_ERROR);
+        QueryWrapper<Module> ew = new QueryWrapper();
+        if(StringUtils.isNotBlank(moduleName)){
+            ew.eq("module_name",moduleName);
+            ew.eq("level",1);
+            Module parentModule = this.service.getOne(ew);
+            if(parentModule != null){
+                ew.clear();
+                ew.eq("parent_id",parentModule.getId());
+                List<Module> list = this.service.list(ew);
+                return Result.success(list);
+            }
+        }
+
+        if(StringUtils.isNotBlank(parentId)){
+            ew.clear();
+            ew.eq("parent_id",parentId);
+            List<Module> list = this.service.list(ew);
+            return Result.success(list);
+        }
+
+        return null;
+
     }
 
 
