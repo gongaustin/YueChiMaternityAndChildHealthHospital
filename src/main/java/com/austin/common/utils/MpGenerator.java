@@ -27,7 +27,7 @@ public class MpGenerator {
 
         String[] table_prefix = new String[]{"busi_", "upms_"};  //表前缀
 
-        String[] table_names = new String[]{"upms_user", "upms_log", "upms_dept", "busi_article", "busi_doctor", "busi_attachment"};  //表名
+        String[] table_names = new String[]{"upms_user", "upms_log", "upms_dept", "busi_article", "busi_doctor", "busi_attachment","busi_module"};  //表名
 
         new MpGenerator().generateCode(package_name, table_prefix, table_names);
     }

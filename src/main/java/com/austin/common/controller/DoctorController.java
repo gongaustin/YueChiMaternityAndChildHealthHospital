@@ -3,7 +3,6 @@ package com.austin.common.controller;
 
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
-import com.austin.common.entity.Dept;
 import com.austin.common.entity.Doctor;
 import com.austin.common.service.IDoctorService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
