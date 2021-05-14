@@ -67,7 +67,7 @@ public class DeptController {
     @ApiOperation(value = "ID查询科室", notes = "ID查询科室")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
     @GetMapping(value = "/selectById", params = {"id"})
-    private Result getDoctorByID(@NotBlank String id) {
+    private Result getDeptByID(@NotBlank String id) {
         Dept dt = this.service.getById(id);
         return Result.success(dt);
     }
