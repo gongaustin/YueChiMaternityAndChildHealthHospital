@@ -35,7 +35,7 @@ public class ModuleController {
     private IModuleService service;
 
     //分页查询
-    @ApiOperation(value = "查询模块", notes = "查询模块")
+    @ApiOperation(value = "查询子模块", notes = "查询子模块")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "moduleName", value = "父模块名称", required = false, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "parentId", value = "父模块ID", required = false, dataType = "String"),})
     @GetMapping("/selectByList")
     private Result getModuleByList(String moduleName, String parentId) {

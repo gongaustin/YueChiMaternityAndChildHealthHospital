@@ -108,7 +108,7 @@ public class ArticleController {
     @ApiImplicitParams(
             {
                     @ApiImplicitParam(paramType = "query", name = "title", value = "标题", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "type", value = "类型", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "moduleId", value = "所属模块ID", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "content", value = "内容", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "articleAttachmentId", value = "附件ID", required = false, dataType = "String"),
             }
@@ -127,7 +127,7 @@ public class ArticleController {
             {
                     @ApiImplicitParam(paramType = "query", name = "id", value = "文章ID", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "title", value = "标题", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "type", value = "类型", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "moduleId", value = "所属模块ID", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "content", value = "内容", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "articleAttachmentId", value = "附件ID", required = false, dataType = "String"),
             }
