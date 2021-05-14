@@ -30,6 +30,11 @@ public class Module implements Serializable {
     private String moduleName;
 
     /**
+     * 展示优先级
+     */
+    private Integer priority;
+
+    /**
      * 等级
      */
     private Integer level;
@@ -64,6 +69,14 @@ public class Module implements Serializable {
 
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
     public Integer getLevel() {
@@ -103,6 +116,7 @@ public class Module implements Serializable {
         return "Module{" +
         "id=" + id +
         ", moduleName=" + moduleName +
+        ", priority=" + priority +
         ", level=" + level +
         ", description=" + description +
         ", parentId=" + parentId +
