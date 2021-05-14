@@ -79,17 +79,28 @@ public class ModuleController {
         return Result.success(me);
     }
 
-
-    //ID单查
     @ApiOperation(value = "添加二级模块", notes = "添加二级模块")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "perentId", value = "查询ID", required = true, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "moduleName", value = "模块名称", required = true, dataType = "String"),})
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "parentModuleName", value = "父模块名称", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "moduleName", value = "模块名称", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "priority", value = "排序规则", required = false, dataType = "int"),
+    })
     @GetMapping(value = "/addModule", params = {"id"})
-    private Result getModuleByID(@NotNull Module module) {
+    private Result getModuleByID(@NotBlank String parentModuleName,@NotNull Module module) {
+        QueryWrapper<Module> ew = new QueryWrapper<>();
+        ew.eq("module_name",parentModuleName);
+        ew.eq("level",1);
+        Module parentModule = this.service.getOne(ew);
+        if(parentModule == null) return Result.message(CodeMsg.OPERATE_FAIL);
+        module.setParentId(parentModule.getId());
+        module.setLevel(2);
         boolean b = this.service.save(module);
         if (b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }
 
+
+    //ID单查
 
     @ApiOperation(value = "修改模块信息", notes = "修改模块信息")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "文章ID", required = true, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "ModuleName", value = "模块名称", required = false, dataType = "String"),})
