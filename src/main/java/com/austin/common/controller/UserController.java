@@ -6,6 +6,7 @@ import com.austin.common.core.bean.Result;
 import com.austin.common.core.constant.YiYuanConstant;
 import com.austin.common.entity.User;
 import com.austin.common.service.IUserService;
+import com.austin.common.utils.JWTUtil;
 import com.austin.common.utils.Md5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ import javax.validation.constraints.NotNull;
  */
 @RestController
 @RequestMapping("/user")
-@Api("管理员用户前端控制器")
+@Api("管理员用户前端控制器(操作需带token)")
 public class UserController {
 
     /**
@@ -56,7 +58,7 @@ public class UserController {
 
             }
     )
-    @PostMapping(value = "/add", params = {"username","username","username"})
+    @PostMapping(value = "/add", params = {"username","password","realname"})
 
     public Result addUser(@NotNull User user) {
         QueryWrapper<User> ew = new QueryWrapper<>();
@@ -169,17 +171,17 @@ public class UserController {
         return Result.message(CodeMsg.OPERATE_FAIL);
     }
 
-    @ApiOperation(value = "修改密码", notes = "修改密码")
+    @ApiOperation(value = "修改自己密码(带token)", notes = "修改自己密码(带token)")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "id", value = "管理员用户ID", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "oldPassword", value = "原密码", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "newPassword", value = "新密码", required = true, dataType = "String"),
             }
     )
-    @PostMapping(value = "/modifyPassword",params = {"id","oldPassword","newPassword"})
+    @PostMapping(value = "/modifyPassword",params = {"oldPassword","newPassword"})
 
-    public Result modifyPassword(@NotBlank String id,@NotBlank String oldPassword,@NotBlank String newPassword){
+    public Result modifyPassword(@NotBlank String oldPassword,@NotBlank String newPassword){
+        String id = JWTUtil.getUserId(SecurityUtils.getSubject().getPrincipal().toString());
         User user = this.service.getById(id);
         if(user.getPassword().equals(Md5.md5Encode(oldPassword))){
             user.setPassword(Md5.md5Encode(newPassword));
