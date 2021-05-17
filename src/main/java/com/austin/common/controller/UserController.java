@@ -59,7 +59,7 @@ public class UserController {
             }
     )
     @PostMapping(value = "/add", params = {"username","password","realname"})
-
+    @RequiresAuthentication
     public Result addUser(@NotNull User user) {
         QueryWrapper<User> ew = new QueryWrapper<>();
         ew.eq("username",user.getUsername());
@@ -119,7 +119,7 @@ public class UserController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-
+    @RequiresAuthentication
     public Result updateById(@NotNull User user) {
         if(StringUtils.isNotBlank(user.getUsername())) {
             QueryWrapper<User> ew = new QueryWrapper();
@@ -140,7 +140,7 @@ public class UserController {
     @ApiOperation(value = "删除管理员(逻辑删除)", notes = "删除管理员(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "用户ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-
+    @RequiresAuthentication
     public Result deleteLogicById(@NotBlank String id) {
         User user = this.service.getById(id);
         if(StringUtils.endsWithIgnoreCase("admin",user.getUsername())){
@@ -161,6 +161,7 @@ public class UserController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
+    @RequiresAuthentication
     public Result deletePhysicsById(@NotBlank String id) {
         User user = this.service.getById(id);
         if(StringUtils.endsWithIgnoreCase("admin",user.getUsername())){
@@ -179,7 +180,7 @@ public class UserController {
             }
     )
     @PostMapping(value = "/modifyPassword",params = {"oldPassword","newPassword"})
-
+    @RequiresAuthentication
     public Result modifyPassword(@NotBlank String oldPassword,@NotBlank String newPassword){
         String id = JWTUtil.getUserId(SecurityUtils.getSubject().getPrincipal().toString());
         User user = this.service.getById(id);
@@ -200,7 +201,7 @@ public class UserController {
             }
     )
     @PostMapping(value = "/resetPassword",params = {"id"})
-
+    @RequiresAuthentication
     public Result resetPassword(@NotBlank String id){
         User user = this.service.getById(id);
         user.setPassword(Md5.md5Encode(YiYuanConstant.RESET_PASSWORD));
