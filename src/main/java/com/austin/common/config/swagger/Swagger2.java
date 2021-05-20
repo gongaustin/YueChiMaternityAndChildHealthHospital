@@ -43,7 +43,7 @@ public class Swagger2 {
         apiKeys.add(new ApiKey("Authorization", "Authorization", "header"));
         return apiKeys;
     }
-
+    //设置过滤规则 
     private List<SecurityContext> securityContexts() {
         List<SecurityContext> securityContexts=new ArrayList<>();
         securityContexts.add(
