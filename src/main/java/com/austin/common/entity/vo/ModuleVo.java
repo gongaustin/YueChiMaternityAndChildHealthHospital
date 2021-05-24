@@ -11,13 +11,13 @@ import java.util.List;
  * @Date: Created in 15:54 2021/5/14
  */
 public class ModuleVo extends Module {
-    List<Module> moduleList = new ArrayList<>();
+    List<Module> children = new ArrayList<>();
 
-    public List<Module> getModuleList() {
-        return moduleList;
+    public List<Module> getChildren() {
+        return children;
     }
 
-    public void setModuleList(List<Module> moduleList) {
-        this.moduleList = moduleList;
+    public void setChildren(List<Module> children) {
+        this.children = children;
     }
 }

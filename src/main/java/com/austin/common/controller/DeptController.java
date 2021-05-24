@@ -36,16 +36,17 @@ public class DeptController {
     private IDeptService service;
 
     //分页查询
-    @ApiOperation(value = "分页查询科室", notes = "分页查询科室")
+    @ApiOperation(value = "查询科室(分页、ID、模糊)", notes = "查询科室(分页、ID、模糊)")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = false, dataType = "String"),
             }
             )
-    @GetMapping("/selectByPage")
-    private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete) {
+    @GetMapping("/list")
+    private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete, String id) {
         Page<Dept> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -56,17 +57,20 @@ public class DeptController {
         if (null != isDelete) {
             ew.eq("is_delete", isDelete);
         }
+        if(StringUtils.isNotBlank(id)){
+            ew.eq("id",id);
+        }
         ew.orderByDesc("ctime");
-        page = service.page(page);
+        page = service.page(page,ew);
 
         return Result.success(page);
     }
 
 
     //ID单查
-    @ApiOperation(value = "ID查询科室", notes = "ID查询科室")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
-    @GetMapping(value = "/selectById", params = {"id"})
+//    @ApiOperation(value = "ID查询科室", notes = "ID查询科室")
+//    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
+//    @GetMapping(value = "/selectById", params = {"id"})
     private Result getDeptByID(@NotBlank String id) {
         Dept dt = this.service.getById(id);
         return Result.success(dt);
@@ -81,14 +85,12 @@ public class DeptController {
             {
                     @ApiImplicitParam(paramType = "query", name = "deptName", value = "科室名", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "description", value = "科室描述", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "type", value = "科室类型", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "contact", value = "科室联系方式", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "leaderDoctorId", value = "负责人ID", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点科室(0:不是,1:是)", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "addr", value = "科室地址", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "contact", value = "科室联系方式", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点特色科室(0:不是,1:是)", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "addr", value = "科室地址", required = false, dataType = "String"),
             }
     )
-    @PostMapping(value = "/add", params = {"deptName","type","description"})
+    @PostMapping(value = "/add", params = {"deptName","description"})
     private Result deleteLogicById(@NotNull Dept dept) {
         boolean b = this.service.save(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);

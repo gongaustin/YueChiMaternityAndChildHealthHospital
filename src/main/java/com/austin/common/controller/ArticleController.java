@@ -55,21 +55,22 @@ public class ArticleController {
     private IArticleService service;
 
     //分页查询
-    @ApiOperation(value = "分页查询文章", notes = "分页查询文章")
+    @ApiOperation(value = "查询文章(分页、ID、模糊)", notes = "查询文章(分页、ID、模糊)")
     /**
      * paramType = "query"必须加上，否则前端调试无法传参
      * */
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "keyword", value = "模糊查询关键字", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "moduleId", value = "所属模块ID", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = false, dataType = "String"),
             }
             )
-    @GetMapping("/selectByPage")
-    private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete) {
+    @GetMapping("/list")
+    private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete,String id) {
         Page<Article> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -83,18 +84,23 @@ public class ArticleController {
         if (null != isDelete) {
             ew.eq("is_delete", isDelete);
         }
+        if(StringUtils.isNotBlank(id)){
+            ew.eq("id",id);
+        }
         ew.orderByDesc("ctime");
         page = this.service.page(page, ew);
-        page.getRecords().forEach(e -> {
-            e.setContent("");
-        });
+        if(StringUtils.isBlank(id)){
+            page.getRecords().forEach(e -> {
+                e.setContent("");
+            });
+        }
         return Result.success(page);
     }
 
     //ID单查
-    @ApiOperation(value = "ID查询文章", notes = "ID查询文章")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
-    @GetMapping(value = "/selectById", params = {"id"})
+//    @ApiOperation(value = "ID查询文章", notes = "ID查询文章")
+//    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
+//    @GetMapping(value = "/selectById", params = {"id"})
     private Result getArticleByID(@NotBlank String id) {
         Article ae = this.service.getById(id);
         return Result.success(ae);
@@ -110,10 +116,9 @@ public class ArticleController {
                     @ApiImplicitParam(paramType = "query", name = "title", value = "标题", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "moduleId", value = "所属模块ID", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "content", value = "内容", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "articleAttachmentId", value = "附件ID", required = false, dataType = "String"),
             }
     )
-    @PostMapping(value = "/add", params = {"title","type","content"})
+    @PostMapping(value = "/add", params = {"title","content"})
     private Result deleteLogicById(@NotNull Article article) {
         article.setAuthor(YiYuanConstant.HOSPITAL_NAME);
         boolean b = this.service.save(article);
@@ -129,7 +134,6 @@ public class ArticleController {
                     @ApiImplicitParam(paramType = "query", name = "title", value = "标题", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "moduleId", value = "所属模块ID", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "content", value = "内容", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "articleAttachmentId", value = "附件ID", required = false, dataType = "String"),
             }
     )
     @PostMapping(value = "/update", params = {"id"})

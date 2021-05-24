@@ -38,16 +38,17 @@ public class DoctorController {
     private IDoctorService service;
 
     //分页查询
-    @ApiOperation(value = "分页查询医生", notes = "分页查询医生")
+    @ApiOperation(value = "查询医生(分页、ID、模糊)", notes = "查询医生(分页、ID、模糊)")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = false, dataType = "String"),
             }
             )
-    @GetMapping("/selectByPage")
-    private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete) {
+    @GetMapping("/list")
+    private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id) {
         Page<Doctor> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -57,6 +58,9 @@ public class DoctorController {
         }
         if (null != isDelete) {
             ew.eq("is_delete", isDelete);
+        }
+        if(StringUtils.isNotBlank(id)){
+            ew.eq("id",id);
         }
         ew.orderByDesc("ctime");
         page = service.page(page, ew);

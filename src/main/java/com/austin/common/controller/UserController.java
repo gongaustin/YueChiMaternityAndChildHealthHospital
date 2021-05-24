@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -73,16 +74,17 @@ public class UserController {
         return Result.message(CodeMsg.OPERATE_FAIL);
     }
 
-    @ApiOperation(value = "分页查询管理员", notes = "分页查询管理员")
+    @ApiOperation(value = "查询管理员(分页、ID、模糊)", notes = "查询管理员(分页、ID、模糊)")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = true, dataType = "int"),
-                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = true, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "current", value = "当前页面", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = false, dataType = "int"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = false, dataType = "String"),
             }
     )
-    @GetMapping("/selectByPage")
+    @GetMapping("/list")
     @RequiresAuthentication
-    public Result getUserByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword) {
+    public Result getUserByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword,String id) {
         Page<User> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -90,16 +92,22 @@ public class UserController {
         if (StringUtils.isNotBlank(keyword)) {
             ew.and(wrapper -> wrapper.like("username", keyword).or().like("realname", keyword));
         }
+        if(StringUtils.isNotBlank(id)){
+            ew.eq("id",id);
+        }
         ew.orderByDesc("ctime");
         page = this.service.page(page, ew);
+        if(CollectionUtils.isNotEmpty(page.getRecords())){
+            page.getRecords().forEach(e->e.setPassword(""));
+        }
         return Result.success(page);
     }
 
     //ID单查
 
-    @ApiOperation(value = "ID查询管理员", notes = "ID查询管理员")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
-    @GetMapping(value = "/selectById", params = {"id"})
+//    @ApiOperation(value = "ID查询管理员", notes = "ID查询管理员")
+//    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
+//    @GetMapping(value = "/selectById", params = {"id"})
 
     public Result getUserByID(@NotBlank String id) {
         User ur = this.service.getById(id);
@@ -121,6 +129,7 @@ public class UserController {
     @PostMapping(value = "/update", params = {"id"})
     @RequiresAuthentication
     public Result updateById(@NotNull User user) {
+        user.setPassword(null);
         if(StringUtils.isNotBlank(user.getUsername())) {
             QueryWrapper<User> ew = new QueryWrapper();
             ew.eq("username","admin");
