@@ -138,7 +138,7 @@ public class ModuleController {
         for (int i = 0; i < parentVos.size(); i++) {
             String parentId = parentVos.get(i).getId();
             List<ModuleVo> sonVos = modules.stream().filter(e->parentId.equals(e.getParentId())).collect(Collectors.toList());
-            parentVos.get(i).getChildren().addAll(sonVos);
+            parentVos.get(i).setChildren(sonVos);
         }
         return Result.success(parentVos);
     }
