@@ -26,6 +26,12 @@
 
     <!-- 通用查询过滤条件 -->
     <sql id="queryConditions">
+       <!--
+       ${ew.customSqlSegment}和${ew.sqlSegment}区别
+       ${ew.customSqlSegment}不用加<where>
+       ${ew.sqlSegment}要加<where>
+       看场景酌情使用
+       -->
        ${ew.customSqlSegment}
     </sql>
 
