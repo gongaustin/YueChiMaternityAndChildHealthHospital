@@ -130,7 +130,7 @@ public class ModuleController {
     //全部查出模块(没多少，不用搞太复杂)
     @ApiOperation(value = "全部查出模块", notes = "全部查出模块")
     @GetMapping("/selectAll")
-    private Result deletePhysicsById(){
+    private Result selectAll(){
         QueryWrapper<Module> ew = new QueryWrapper();
         ew.orderByAsc("priority");
         List<ModuleVo> modules = this.service.selectVoList(ew);
