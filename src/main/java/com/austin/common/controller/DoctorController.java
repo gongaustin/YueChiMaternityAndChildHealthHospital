@@ -4,6 +4,7 @@ package com.austin.common.controller;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Doctor;
+import com.austin.common.entity.vo.DoctorVo;
 import com.austin.common.service.IDoctorService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -49,12 +50,17 @@ public class DoctorController {
             )
     @GetMapping("/list")
     private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id) {
-        Page<Doctor> page = new Page<>();
+        Page<DoctorVo> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
-        QueryWrapper<Doctor> ew = new QueryWrapper();
+        QueryWrapper<DoctorVo> ew = new QueryWrapper();
         if (StringUtils.isNotBlank(keyword)) {
-            ew.and(wrapper -> wrapper.like("name", keyword).or().like("title", keyword).or().like("special_talent", keyword));
+            ew.and(wrapper -> wrapper
+                    .like("competent", keyword).or()
+                    .like("name", keyword).or()
+                    .like("title", keyword).or()
+                    .like("special_talent", keyword).or()
+                    .like("dept_name",keyword));
         }
         if (null != isDelete) {
             ew.eq("is_delete", isDelete);
@@ -63,7 +69,7 @@ public class DoctorController {
             ew.eq("id",id);
         }
         ew.orderByDesc("ctime");
-        page = service.page(page, ew);
+        page = service.selectVoPage(page, ew);
         return Result.success(page);
     }
 

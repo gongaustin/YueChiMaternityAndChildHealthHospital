@@ -2,6 +2,7 @@ package com.austin.common.utils;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
@@ -24,10 +25,18 @@ public class MpGenerator {
     private static final String password = "123";  //密码
 
     public static void main(String args[]) {
-
+        //表前缀
         String[] table_prefix = new String[]{"busi_", "upms_"};  //表前缀
-
-        String[] table_names = new String[]{"upms_user", "upms_log", "upms_dept", "busi_article", "busi_doctor", "busi_attachment","busi_module"};  //表名
+        //处理的表名
+        String[] table_names = new String[]{
+                "upms_user",
+                "upms_log",
+                "upms_dept",
+                "busi_article",
+                "busi_doctor",
+                "busi_attachment",
+                "busi_module"
+        };
 
         new MpGenerator().generateCode(package_name, table_prefix, table_names);
     }
@@ -38,16 +47,60 @@ public class MpGenerator {
     }
 
     private void generateByTables(String packageName, String[] prefix, String... tableNames) {
-
+        //全局配置
         GlobalConfig config = new GlobalConfig();
         String dbUrl = url;
+        //数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setDbType(DbType.MYSQL).setUrl(dbUrl).setUsername(username).setPassword(password).setDriverName(driver_class_name);
+        dataSourceConfig
+                //数据源类型
+                .setDbType(DbType.MYSQL)
+                .setUrl(dbUrl)
+                .setUsername(username)
+                .setPassword(password)
+                .setDriverName(driver_class_name);
+        //StrategyConfig
         StrategyConfig strategyConfig = new StrategyConfig();
-        strategyConfig.setCapitalMode(true).setEntityLombokModel(false).setTablePrefix(prefix).setNaming(NamingStrategy.underline_to_camel)  //转驼峰
+        strategyConfig
+                .setCapitalMode(true)
+                .setEntityLombokModel(true)
+                .setTablePrefix(prefix)
+                .setNaming(NamingStrategy.underline_to_camel)  //转驼峰
                 .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
-        config.setActiveRecord(false).setEnableCache(false).setAuthor("AustinGJ").setOutputDir("d:/tmp").setFileOverride(true);
-        new AutoGenerator().setGlobalConfig(config).setDataSource(dataSourceConfig).setStrategy(strategyConfig).setPackageInfo(new PackageConfig().setParent(packageName).setEntity("entity").setMapper("mapper").setXml("resource.mapper").setController("controller").setService("service").setServiceImpl("service.impl")).execute();
+        //设置全局配置参数
+        config
+                //通用查询映射
+                .setBaseResultMap(true)
+                //用用结果查询列
+                .setBaseColumnList(false)
+                //ID类型设置
+                .setIdType(IdType.ASSIGN_UUID)
+                //Swagger
+                .setSwagger2(true)
+
+                .setActiveRecord(false)
+                //缓存
+                .setEnableCache(false)
+                //作者
+                .setAuthor("AustinGJ")
+                //输出目录
+                .setOutputDir("d:/tmp")
+                //覆盖
+                .setFileOverride(true);
+        new AutoGenerator()
+                .setGlobalConfig(config)
+                .setDataSource(dataSourceConfig)
+                .setStrategy(strategyConfig)
+                .setPackageInfo(
+                        new PackageConfig()
+                                .setParent(packageName)
+                                .setEntity("entity")
+                                .setMapper("mapper")
+                                .setXml("resource.mapper")
+                                .setController("controller")
+                                .setService("service")
+                                .setServiceImpl("service.impl")
+                ).execute();
     }
 
     private void generateByTables(String packageName, String... tableNames) {

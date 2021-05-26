@@ -1,8 +1,12 @@
 package com.austin.common.mapper;
 
 import com.austin.common.entity.Doctor;
+import com.austin.common.entity.vo.DoctorVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,5 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DoctorMapper extends BaseMapper<Doctor> {
+
+    Page<DoctorVo> selectVoPage(Page page,@Param("ew") QueryWrapper ew);
 
 }
