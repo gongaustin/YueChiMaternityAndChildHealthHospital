@@ -83,15 +83,21 @@ public class ModuleController {
 
     @ApiOperation(value = "添加二级模块", notes = "添加二级模块")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "parentModuleName", value = "父模块名称", required = true, dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "moduleName", value = "模块名称", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "parentModuleName", value = "父模块名称", required = false, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "moduleName", value = "模块名称", required = false, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "priority", value = "排序规则", required = false, dataType = "int"),
     })
     @GetMapping(value = "/addModule")
-    private Result getModuleByID(@NotBlank String parentModuleName,@NotNull Module module) {
+    private Result getModuleByID(String parentModuleName,@NotNull Module module) {
         QueryWrapper<Module> ew = new QueryWrapper<>();
-        ew.eq("module_name",parentModuleName);
-        ew.eq("level",1);
+        String parentId = module.getParentId();
+        if(StringUtils.isNotBlank(parentId)){
+            ew.eq("id",parentId);
+        }else {
+            ew.eq("module_name",parentModuleName);
+            ew.eq("level",1);
+        }
+        //判断是否存在
         Module parentModule = this.service.getOne(ew);
         if(parentModule == null) return Result.message(CodeMsg.OPERATE_FAIL);
         module.setParentId(parentModule.getId());
@@ -129,16 +135,27 @@ public class ModuleController {
 
     //全部查出模块(没多少，不用搞太复杂)
     @ApiOperation(value = "全部查出模块", notes = "全部查出模块")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "keyword", value = "检索关键词", required = false, dataType = "String"),})
     @GetMapping("/selectAll")
-    private Result selectAll(){
+    private Result selectAll(String keyword){
         QueryWrapper<Module> ew = new QueryWrapper();
         ew.orderByAsc("priority");
-        List<ModuleVo> modules = this.service.selectVoList(ew);
-        List<ModuleVo> parentVos = modules.stream().filter(e->e.getLevel() == 1).collect(Collectors.toList());
+        ew.eq("level",1);
+        if(StringUtils.isNotBlank(keyword)){
+            ew.and(
+                    wrapper -> wrapper.like("module_name",keyword).or()
+                    .like("description",keyword)
+            );
+        }
+        List<ModuleVo> parentVos = this.service.selectVoList(ew);
+        ew.clear();
+        ew.orderByAsc("priority");
+        ew.eq("level",2);
+        List<Module> levelSons = this.service.list(ew);
         for (int i = 0; i < parentVos.size(); i++) {
             String parentId = parentVos.get(i).getId();
-            List<ModuleVo> sonVos = modules.stream().filter(e->parentId.equals(e.getParentId())).collect(Collectors.toList());
-            parentVos.get(i).setChildren(sonVos);
+            List<Module> sons = levelSons.stream().filter(e->parentId.equals(e.getParentId())).collect(Collectors.toList());
+            parentVos.get(i).setChildren(sons);
         }
         return Result.success(parentVos);
     }
