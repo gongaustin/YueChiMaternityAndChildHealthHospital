@@ -62,7 +62,7 @@ public class LoginController {
         if(!user.getPassword().equals(Md5.md5Encode(password))) return Result.message(CodeMsg.PASSWORD_ERROR);
         //认证生成
         String token = JWTUtil.sign(user.getId(), user.getUsername());
-        Integer isAdmin = 0;
+        int isAdmin = 0;
         if(StringUtils.equalsIgnoreCase("admin",username)) isAdmin = 1;
         return Result.success(ImmutableMap.of("Authorization",token,"isAdmin",isAdmin,"msg","login success!"));
     }
