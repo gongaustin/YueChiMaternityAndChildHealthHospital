@@ -5,11 +5,13 @@ import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.core.constant.YiYuanConstant;
 import com.austin.common.entity.User;
+import com.austin.common.entity.vo.UserVo;
 import com.austin.common.service.IUserService;
 import com.austin.common.utils.JWTUtil;
 import com.austin.common.utils.Md5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,11 +21,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -36,6 +41,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/user")
 @Api("管理员用户前端控制器(操作需带token)")
+@RequiresAuthentication
 public class UserController {
 
     /**
@@ -60,7 +66,6 @@ public class UserController {
             }
     )
     @PostMapping(value = "/add", params = {"username","password","realname"})
-    @RequiresAuthentication
     public Result addUser(@NotNull User user) {
         QueryWrapper<User> ew = new QueryWrapper<>();
         ew.eq("username",user.getUsername());
@@ -83,7 +88,6 @@ public class UserController {
             }
     )
     @GetMapping("/list")
-    @RequiresAuthentication
     public Result getUserByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword,String id) {
         Page<User> page = new Page<>();
         page.setCurrent(current);
@@ -97,10 +101,22 @@ public class UserController {
         }
         ew.orderByDesc("ctime");
         page = this.service.page(page, ew);
+        List<UserVo> userVos = Lists.newArrayList();
         if(CollectionUtils.isNotEmpty(page.getRecords())){
-            page.getRecords().forEach(e->e.setPassword(""));
+            page.getRecords().forEach(e->{
+                e.setPassword("");
+                UserVo userVo = new UserVo();
+                BeanUtils.copyProperties(e,userVo);
+                if(StringUtils.equalsIgnoreCase("admin",e.getUsername())){
+                    userVo.setIsAdmin(1);
+                }
+                userVos.add(userVo);
+            });
         }
-        return Result.success(page);
+        Page<UserVo> voPage = new Page<>();
+        BeanUtils.copyProperties(page,voPage);
+        voPage.setRecords(userVos);
+        return Result.success(voPage);
     }
 
     //ID单查
@@ -127,7 +143,6 @@ public class UserController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    @RequiresAuthentication
     public Result updateById(@NotNull User user) {
         user.setPassword(null);
         if(StringUtils.isNotBlank(user.getUsername())) {
@@ -149,7 +164,6 @@ public class UserController {
     @ApiOperation(value = "删除管理员(逻辑删除)", notes = "删除管理员(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "用户ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-    @RequiresAuthentication
     public Result deleteLogicById(@NotBlank String id) {
         User user = this.service.getById(id);
         if(StringUtils.endsWithIgnoreCase("admin",user.getUsername())){
@@ -170,7 +184,6 @@ public class UserController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    @RequiresAuthentication
     public Result deletePhysicsById(@NotBlank String id) {
         User user = this.service.getById(id);
         if(StringUtils.endsWithIgnoreCase("admin",user.getUsername())){
@@ -189,7 +202,6 @@ public class UserController {
             }
     )
     @PostMapping(value = "/modifyPassword",params = {"oldPassword","newPassword"})
-    @RequiresAuthentication
     public Result modifyPassword(@NotBlank String oldPassword,@NotBlank String newPassword){
         String id = JWTUtil.getUserId(SecurityUtils.getSubject().getPrincipal().toString());
         User user = this.service.getById(id);
@@ -210,7 +222,6 @@ public class UserController {
             }
     )
     @PostMapping(value = "/resetPassword",params = {"id"})
-    @RequiresAuthentication
     public Result resetPassword(@NotBlank String id){
         User user = this.service.getById(id);
         user.setPassword(Md5.md5Encode(YiYuanConstant.RESET_PASSWORD));

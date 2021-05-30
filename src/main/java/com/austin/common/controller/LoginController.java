@@ -40,7 +40,7 @@ import java.util.Map;
 public class LoginController {
 
     @Autowired
-    private IUserService service;
+    public IUserService service;
 
     @ApiOperation(value = "登录接口", notes = "登录接口")
     @ApiImplicitParams(

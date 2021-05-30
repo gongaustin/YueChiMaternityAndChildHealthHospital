@@ -28,6 +28,12 @@ import java.util.Map;
 @Configuration
 public class MyShiroConfig {
 
+//    @Bean(name = "myRealm")
+//    public MyRealm myAuthRealm() {
+//        MyRealm myRealm = new MyRealm();
+//        return myRealm;
+//    }
+
     @Bean("securityManager")
     public DefaultWebSecurityManager getManager(@Qualifier("myRealm") MyRealm myRealm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();

@@ -44,7 +44,7 @@ public class AttachmentController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private IAttachmentService service;
+    public IAttachmentService service;
     @Value("${file.upload-folder}")
     private String FILE_PATH;
     @Value("${file.pre-visit-url}")

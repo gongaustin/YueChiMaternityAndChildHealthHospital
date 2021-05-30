@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -35,13 +36,12 @@ public class ModuleController {
 
 
     @Autowired
-    private IModuleService service;
+    public IModuleService service;
 
     //分页查询
     @ApiOperation(value = "查询子模块", notes = "查询子模块")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "moduleName", value = "父模块名称", required = false, dataType = "String"), @ApiImplicitParam(paramType = "query", name = "parentId", value = "父模块ID", required = false, dataType = "String"),})
     @GetMapping("/selectByParent")
-    @RequiresAuthentication
     private Result getModuleByList(String moduleName, String parentId) {
 
         if (StringUtils.isAllBlank(moduleName, parentId)) return Result.message(CodeMsg.PARAMETER_ERROR);
@@ -78,7 +78,6 @@ public class ModuleController {
     @ApiOperation(value = "ID查询模块", notes = "ID查询模块")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
     @GetMapping(value = "/selectById", params = {"id"})
-    @RequiresAuthentication
     private Result getModuleByID(@NotBlank String id) {
         Module me = this.service.getById(id);
         return Result.success(me);
@@ -91,7 +90,6 @@ public class ModuleController {
             @ApiImplicitParam(paramType = "query", name = "priority", value = "排序规则", required = false, dataType = "int"),
     })
     @GetMapping(value = "/addModule")
-    @RequiresAuthentication
     private Result getModuleByID(String parentModuleName,@NotNull Module module) {
         QueryWrapper<Module> ew = new QueryWrapper<>();
         String parentId = module.getParentId();
@@ -117,7 +115,6 @@ public class ModuleController {
     @ApiOperation(value = "修改模块信息", notes = "修改模块信息")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "模块ID", required = true, dataType = "String"),})
     @PostMapping(value = "/update", params = {"id"})
-    @RequiresAuthentication
     private Result updateById(@NotNull Module module) {
         boolean b = this.service.updateById(module);
         if (b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -130,7 +127,6 @@ public class ModuleController {
     @ApiOperation(value = "删除模块(物理删除)", notes = "删除模块(物理删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "模块ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    @RequiresAuthentication
     private Result deletePhysicsById(@NotBlank String id) {
         Module module = this.service.getById(id);
         if (module.getLevel() == 1) return Result.message(CodeMsg.FORBID_ACTION);
@@ -143,15 +139,15 @@ public class ModuleController {
     @ApiOperation(value = "全部查出模块", notes = "全部查出模块")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "keyword", value = "检索关键词", required = false, dataType = "String"),})
     @GetMapping("/selectAll")
-    @RequiresAuthentication
     private Result selectAll(String keyword){
         QueryWrapper<Module> ew = new QueryWrapper();
         ew.orderByAsc("priority");
         ew.eq("level",1);
         if(StringUtils.isNotBlank(keyword)){
             ew.and(
-                    wrapper -> wrapper.like("module_name",keyword).or()
-                    .like("description",keyword)
+                    wrapper -> wrapper
+                            .like("module_name",keyword).or()
+                            .like("description",keyword)
             );
         }
         List<ModuleVo> parentVos = this.service.selectVoList(ew);

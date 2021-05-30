@@ -34,7 +34,7 @@ public class DeptController {
 
 
     @Autowired
-    private IDeptService service;
+    public IDeptService service;
 
     //分页查询
     @ApiOperation(value = "查询科室(分页、ID、模糊)", notes = "查询科室(分页、ID、模糊)")
@@ -47,7 +47,6 @@ public class DeptController {
             }
             )
     @GetMapping("/list")
-    @RequiresAuthentication
     private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete, String id) {
         Page<Dept> page = new Page<>();
         page.setCurrent(current);
@@ -93,7 +92,6 @@ public class DeptController {
             }
     )
     @PostMapping(value = "/add", params = {"deptName","description"})
-    @RequiresAuthentication
     private Result deleteLogicById(@NotNull Dept dept) {
         boolean b = this.service.save(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -113,7 +111,6 @@ public class DeptController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    @RequiresAuthentication
     private Result updateById(@NotNull Dept dept) {
         boolean b = this.service.save(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -126,7 +123,6 @@ public class DeptController {
     @ApiOperation(value = "删除科室(逻辑删除)", notes = "删除科室(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "科室ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-    @RequiresAuthentication
     private Result deleteLogicById(@NotBlank String id) {
         Dept dept = new Dept();
         dept.setId(id);
@@ -145,7 +141,6 @@ public class DeptController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    @RequiresAuthentication
     private Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);

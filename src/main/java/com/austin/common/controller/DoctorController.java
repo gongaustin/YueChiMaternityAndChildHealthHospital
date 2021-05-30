@@ -1,6 +1,7 @@
 package com.austin.common.controller;
 
 
+import com.austin.common.config.beanutils.SpringBeanFactoryUtils;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Doctor;
@@ -37,7 +38,8 @@ public class DoctorController {
 
 
     @Autowired
-    private IDoctorService service;
+    public IDoctorService service;
+
 
     //分页查询
     @ApiOperation(value = "查询医生(分页、ID、模糊)", notes = "查询医生(分页、ID、模糊)")
@@ -50,7 +52,6 @@ public class DoctorController {
             }
             )
     @GetMapping("/list")
-    @RequiresAuthentication
     private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id) {
         Page<DoctorVo> page = new Page<>();
         page.setCurrent(current);
@@ -80,7 +81,6 @@ public class DoctorController {
     @ApiOperation(value = "ID查询医生", notes = "ID查询医生")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
     @GetMapping(value = "/selectById", params = {"id"})
-    @RequiresAuthentication
     private Result getDoctorByID(@NotBlank String id) {
         Doctor dr = this.service.getById(id);
         return Result.success(dr);
@@ -103,7 +103,6 @@ public class DoctorController {
             }
     )
     @PostMapping(value = "/add", params = {"name","type","content"})
-    @RequiresAuthentication
     private Result deleteLogicById(@NotNull Doctor doctor) {
         boolean b = this.service.save(doctor);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -126,7 +125,6 @@ public class DoctorController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    @RequiresAuthentication
     private Result updateById(@NotNull Doctor doctor) {
         boolean b = this.service.save(doctor);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -139,7 +137,6 @@ public class DoctorController {
     @ApiOperation(value = "删除医生(逻辑删除)", notes = "删除医生(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "医生ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-    @RequiresAuthentication
     private Result deleteLogicById(@NotBlank String id) {
         Doctor doctor = new Doctor();
         doctor.setId(id);
@@ -158,7 +155,6 @@ public class DoctorController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    @RequiresAuthentication
     private Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
