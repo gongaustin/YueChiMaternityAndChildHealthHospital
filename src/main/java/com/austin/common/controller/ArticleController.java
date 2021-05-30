@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +71,7 @@ public class ArticleController {
             }
             )
     @GetMapping("/list")
+    @RequiresAuthentication
     private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete,String id) {
         Page<Article> page = new Page<>();
         page.setCurrent(current);
@@ -119,6 +121,7 @@ public class ArticleController {
             }
     )
     @PostMapping(value = "/add", params = {"title","content"})
+    @RequiresAuthentication
     private Result deleteLogicById(@NotNull Article article) {
         article.setAuthor(YiYuanConstant.HOSPITAL_NAME);
         boolean b = this.service.save(article);
@@ -137,6 +140,7 @@ public class ArticleController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
+    @RequiresAuthentication
     private Result updateById(@NotNull Article article) {
         boolean b = this.service.save(article);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -149,6 +153,7 @@ public class ArticleController {
     @ApiOperation(value = "删除文章(逻辑删除)", notes = "删除文章(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "文章ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
+    @RequiresAuthentication
     private Result deleteLogicById(@NotBlank String id) {
         Article article = new Article();
         article.setId(id);
@@ -167,6 +172,7 @@ public class ArticleController {
             }
             )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
+    @RequiresAuthentication
     private Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
