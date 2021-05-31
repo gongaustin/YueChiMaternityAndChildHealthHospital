@@ -114,6 +114,7 @@ public class UserController {
             });
         }
         Page<UserVo> voPage = new Page<>();
+
         BeanUtils.copyProperties(page,voPage);
         voPage.setRecords(userVos);
         return Result.success(voPage);
