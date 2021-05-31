@@ -106,6 +106,7 @@ public class UserController {
             page.getRecords().forEach(e->{
                 e.setPassword("");
                 UserVo userVo = new UserVo();
+                //按相同属性名进行值拷贝
                 BeanUtils.copyProperties(e,userVo);
                 if(StringUtils.equalsIgnoreCase("admin",e.getUsername())){
                     userVo.setIsAdmin(1);
