@@ -2,4 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.austin.common.mapper.ArticleMapper">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.austin.common.entity.Article">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="module_id" property="moduleId" />
+        <result column="author" property="author" />
+        <result column="content" property="content" />
+        <result column="ctime" property="ctime" />
+        <result column="article_attachment_id" property="articleAttachmentId" />
+        <result column="is_delete" property="isDelete" />
+        <result column="backup" property="backup" />
+    </resultMap>
+
+    <resultMap id="BaseVoResultMap" extends="BaseResultMap" type="com.austin.common.entity.vo.ArticleVo">
+
+    </resultMap>
+
+    <!-- 通用查询过滤条件 -->
+    <sql id="queryConditions">
+        <!--
+        ${ew.customSqlSegment}和${ew.sqlSegment}区别
+        ${ew.customSqlSegment}不用加<where>
+        ${ew.sqlSegment}要加<where>
+        看场景酌情使用
+        -->
+        ${ew.customSqlSegment}
+    </sql>
+
+    <select id="selectVoPage" resultMap="BaseVoResultMap">
+        select a.* from(
+        select t.*,d.module_name from busi_article t left join busi_module d on d.id = t.module_id
+        ) a
+        <include refid="queryConditions"></include>
+    </select>
+
+
+
+
 </mapper>

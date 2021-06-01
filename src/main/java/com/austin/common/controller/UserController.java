@@ -4,8 +4,10 @@ package com.austin.common.controller;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.core.constant.YiYuanConstant;
+import com.austin.common.entity.Attachment;
 import com.austin.common.entity.User;
 import com.austin.common.entity.vo.UserVo;
+import com.austin.common.service.IAttachmentService;
 import com.austin.common.service.IUserService;
 import com.austin.common.utils.JWTUtil;
 import com.austin.common.utils.Md5;
@@ -52,6 +54,9 @@ public class UserController {
 
     @Autowired
     public IUserService service;
+
+    @Autowired
+    public IAttachmentService as;
 
     //分页查询
     @ApiOperation(value = "新增管理员", notes = "新增管理员")
@@ -108,6 +113,11 @@ public class UserController {
                 UserVo userVo = new UserVo();
                 //按相同属性名进行值拷贝
                 BeanUtils.copyProperties(e,userVo);
+                if(StringUtils.isNotBlank(e.getAvatarUrl())){
+                    QueryWrapper<Attachment> qw = new QueryWrapper();
+                    qw.eq("url",e.getAvatarUrl());
+                    userVo.setAvatarId(this.as.getOne(qw).getId());
+                }
                 if(StringUtils.equalsIgnoreCase("admin",e.getUsername())){
                     userVo.setIsAdmin(1);
                 }

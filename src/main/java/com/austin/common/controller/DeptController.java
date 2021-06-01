@@ -112,7 +112,7 @@ public class DeptController {
     )
     @PostMapping(value = "/update", params = {"id"})
     private Result updateById(@NotNull Dept dept) {
-        boolean b = this.service.save(dept);
+        boolean b = this.service.updateById(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }

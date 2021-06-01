@@ -5,6 +5,7 @@ import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.core.constant.YiYuanConstant;
 import com.austin.common.entity.Article;
+import com.austin.common.entity.vo.ArticleVo;
 import com.austin.common.service.IArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -73,7 +74,7 @@ public class ArticleController {
             )
     @GetMapping("/list")
     private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete,String id) {
-        Page<Article> page = new Page<>();
+        Page<ArticleVo> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
         QueryWrapper<Article> ew = new QueryWrapper<>();
@@ -90,7 +91,7 @@ public class ArticleController {
             ew.eq("id",id);
         }
         ew.orderByDesc("ctime");
-        page = this.service.page(page, ew);
+        page = this.service.selectVoPage(page, ew);
         if(StringUtils.isBlank(id)){
             page.getRecords().forEach(e -> {
                 e.setContent("");
@@ -140,7 +141,7 @@ public class ArticleController {
     )
     @PostMapping(value = "/update", params = {"id"})
     private Result updateById(@NotNull Article article) {
-        boolean b = this.service.save(article);
+        boolean b = this.service.updateById(article);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }

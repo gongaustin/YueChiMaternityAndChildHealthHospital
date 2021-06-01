@@ -1,8 +1,11 @@
 package com.austin.common.service.impl;
 
 import com.austin.common.entity.Article;
+import com.austin.common.entity.vo.ArticleVo;
 import com.austin.common.mapper.ArticleMapper;
 import com.austin.common.service.IArticleService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
 
+    @Override
+    public Page<ArticleVo> selectVoPage(Page page, QueryWrapper ew) {
+        return this.baseMapper.selectVoPage(page,ew);
+    }
 }

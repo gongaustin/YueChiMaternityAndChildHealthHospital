@@ -126,7 +126,7 @@ public class DoctorController {
     )
     @PostMapping(value = "/update", params = {"id"})
     private Result updateById(@NotNull Doctor doctor) {
-        boolean b = this.service.save(doctor);
+        boolean b = this.service.updateById(doctor);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }

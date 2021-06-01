@@ -10,11 +10,21 @@ import com.austin.common.entity.User;
 public class UserVo extends User {
     private int isAdmin = 0;
 
+    private String avatarId;
+
     public int getIsAdmin() {
         return isAdmin;
     }
 
     public void setIsAdmin(int isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public String getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(String avatarId) {
+        this.avatarId = avatarId;
     }
 }

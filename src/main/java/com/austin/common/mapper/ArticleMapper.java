@@ -1,7 +1,10 @@
 package com.austin.common.mapper;
 
 import com.austin.common.entity.Article;
+import com.austin.common.entity.vo.ArticleVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,5 +17,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
+
+    Page<ArticleVo> selectVoPage(Page page, QueryWrapper ew);
 
 }
