@@ -2,6 +2,7 @@ package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -37,6 +38,7 @@ public class Article implements Serializable {
     /**
      * 所属模块ID
      */
+    @TableField("module_id")
     private String moduleId;
 
     /**
@@ -59,11 +61,13 @@ public class Article implements Serializable {
     /**
      * 附件UUID（只能上传一个附件，多个附件请打包）
      */
+    @TableField("article_attachment_id")
     private String articleAttachmentId;
 
     /**
      * 逻辑删除（1为删除状态，0为未删除状态）
      */
+    @TableField("is_delete")
     private Integer isDelete;
 
     /**

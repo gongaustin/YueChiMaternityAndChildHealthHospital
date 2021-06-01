@@ -2,6 +2,7 @@ package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -47,6 +48,7 @@ public class User implements Serializable {
     /**
      * 头像
      */
+    @TableField("avatar_url")
     private String avatarUrl;
 
     /**
@@ -79,6 +81,7 @@ public class User implements Serializable {
     /**
      * 科室ID
      */
+    @TableField("dept_id")
     private String deptId;
 
     /**
@@ -89,11 +92,13 @@ public class User implements Serializable {
     /**
      * 办公室电话
      */
+    @TableField("office_phone")
     private String officePhone;
 
     /**
      * 逻辑删除标识符
      */
+    @TableField("is_delete")
     private Integer isDelete;
 
     /**
@@ -138,7 +143,7 @@ public class User implements Serializable {
         return avatarUrl;
     }
 
-    public void setAvatarUrl(String avatarAttchmentId) {
+    public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
 

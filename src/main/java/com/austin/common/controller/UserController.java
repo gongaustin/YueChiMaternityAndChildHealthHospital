@@ -137,7 +137,7 @@ public class UserController {
     @ApiOperation(value = "修改管理员信息", notes = "修改管理员信息")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "id", value = "医生ID", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "realname", value = "真实姓名", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "cellphone", value = "联系方式", required = false, dataType = "String"),

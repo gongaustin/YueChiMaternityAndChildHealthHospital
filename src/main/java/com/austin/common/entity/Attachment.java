@@ -2,6 +2,7 @@ package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,6 +33,7 @@ public class Attachment implements Serializable {
     /**
      * 附件名称
      */
+    @TableField("file_name")
     private String fileName;
 
     /**

@@ -2,6 +2,7 @@ package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,16 +33,19 @@ public class Dept implements Serializable {
     /**
      * 科室编号
      */
+    @TableField("dept_no")
     private String deptNo;
 
     /**
      * 科室名称
      */
+    @TableField("dept_name")
     private String deptName;
 
     /**
      * 科室负责人ID
      */
+    @TableField("leader_doctor_id")
     private String leaderDoctorId;
 
     /**
@@ -69,7 +73,8 @@ public class Dept implements Serializable {
     /**
      * 科室照片(附件ID)
      */
-    private String photoAttachmentId;
+    @TableField("photo_url")
+    private String photoUrl;
 
     /**
      * 科室类型（临床/五大中心/医技科etc）
@@ -79,11 +84,13 @@ public class Dept implements Serializable {
     /**
      * 是否重点科室（0：不是；1：是）
      */
+    @TableField("is_important")
     private Integer isImportant;
 
     /**
      * 逻辑删除标识符
      */
+    @TableField("is_delete")
     private Integer isDelete;
 
     /**
@@ -156,12 +163,12 @@ public class Dept implements Serializable {
         this.ctime = ctime;
     }
 
-    public String getPhotoAttachmentId() {
-        return photoAttachmentId;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhotoAttachmentId(String photoAttachmentId) {
-        this.photoAttachmentId = photoAttachmentId;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public Integer getType() {
@@ -198,6 +205,6 @@ public class Dept implements Serializable {
 
     @Override
     public String toString() {
-        return "Dept{" + "id=" + id + ", deptNo=" + deptNo + ", deptName=" + deptName + ", leaderDoctorId=" + leaderDoctorId + ", description=" + description + ", contact=" + contact + ", addr=" + addr + ", ctime=" + ctime + ", photoAttachmentId=" + photoAttachmentId + ", type=" + type + ", isImportant=" + isImportant + ", isDelete=" + isDelete + ", backup=" + backup + "}";
+        return "Dept{" + "id=" + id + ", deptNo=" + deptNo + ", deptName=" + deptName + ", leaderDoctorId=" + leaderDoctorId + ", description=" + description + ", contact=" + contact + ", addr=" + addr + ", ctime=" + ctime + ", photoUrl=" + photoUrl + ", type=" + type + ", isImportant=" + isImportant + ", isDelete=" + isDelete + ", backup=" + backup + "}";
     }
 }

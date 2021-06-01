@@ -1,6 +1,7 @@
 package com.austin.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
@@ -27,6 +28,7 @@ public class Module implements Serializable {
     /**
      * 模块名
      */
+    @TableField("module_name")
     private String moduleName;
 
     /**
@@ -47,6 +49,7 @@ public class Module implements Serializable {
     /**
      * 父ID
      */
+    @TableField("parent_id")
     private String parentId;
 
     /**

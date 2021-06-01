@@ -2,6 +2,7 @@ package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -42,11 +43,13 @@ public class Doctor implements Serializable {
     /**
      * 医生照片
      */
+    @TableField("avatar_url")
     private String avatarUrl;
 
     /**
      * 科室ID
      */
+    @TableField("dept_id")
     private String deptId;
 
     /**
@@ -62,11 +65,13 @@ public class Doctor implements Serializable {
     /**
      * 专长
      */
+    @TableField("special_talent")
     private String specialTalent;
 
     /**
      * 出诊时间
      */
+    @TableField("visit_time")
     private String visitTime;
 
     /**
@@ -82,6 +87,7 @@ public class Doctor implements Serializable {
     /**
      * 是否为专家（0：不是、1：是）
      */
+    @TableField("is_specialist")
     private Integer isSpecialist;
 
     /**
@@ -94,6 +100,7 @@ public class Doctor implements Serializable {
     /**
      * 逻辑删除标识符（）
      */
+    @TableField("is_delete")
     private Integer isDelete;
 
 
