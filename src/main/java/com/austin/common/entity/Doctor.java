@@ -40,9 +40,9 @@ public class Doctor implements Serializable {
     private String sex;
 
     /**
-     * 医生照片(附件表)
+     * 医生照片
      */
-    private String avatarAttachmentId;
+    private String avatarUrl;
 
     /**
      * 科室ID
@@ -121,12 +121,12 @@ public class Doctor implements Serializable {
         this.sex = sex;
     }
 
-    public String getAvatarAttachmentId() {
-        return avatarAttachmentId;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatarAttachmentId(String avatarAttachmentId) {
-        this.avatarAttachmentId = avatarAttachmentId;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getDeptId() {
@@ -211,6 +211,6 @@ public class Doctor implements Serializable {
 
     @Override
     public String toString() {
-        return "Doctor{" + "id=" + id + ", name=" + name + ", sex=" + sex + ", avatarAttachmentId=" + avatarAttachmentId + ", deptId=" + deptId + ", competent=" + competent + ", title=" + title + ", specialTalent=" + specialTalent + ", visitTime=" + visitTime + ", contact=" + contact + ", description=" + description + ", isSpecialist=" + isSpecialist + ", ctime=" + ctime + ", isDelete=" + isDelete + "}";
+        return "Doctor{" + "id=" + id + ", name=" + name + ", sex=" + sex + ", avatarUrl=" + avatarUrl + ", deptId=" + deptId + ", competent=" + competent + ", title=" + title + ", specialTalent=" + specialTalent + ", visitTime=" + visitTime + ", contact=" + contact + ", description=" + description + ", isSpecialist=" + isSpecialist + ", ctime=" + ctime + ", isDelete=" + isDelete + "}";
     }
 }

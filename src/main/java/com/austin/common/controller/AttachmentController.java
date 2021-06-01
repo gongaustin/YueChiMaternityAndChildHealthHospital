@@ -80,7 +80,7 @@ public class AttachmentController {
         } catch (IOException e) {
             return Result.message(CodeMsg.OPERATE_FAIL);
         }
-        return Result.success(at.getId());
+        return Result.success(at);
     }
 
 

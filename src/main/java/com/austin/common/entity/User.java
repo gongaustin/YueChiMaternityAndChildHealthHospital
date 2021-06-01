@@ -45,9 +45,9 @@ public class User implements Serializable {
     private String realname;
 
     /**
-     * 头像（附件表UUID）
+     * 头像
      */
-    private String avatarAttchmentId;
+    private String avatarUrl;
 
     /**
      * 手机
@@ -134,12 +134,12 @@ public class User implements Serializable {
         this.realname = realname;
     }
 
-    public String getAvatarAttchmentId() {
-        return avatarAttchmentId;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatarAttchmentId(String avatarAttchmentId) {
-        this.avatarAttchmentId = avatarAttchmentId;
+    public void setAvatarUrl(String avatarAttchmentId) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getCellphone() {
@@ -224,6 +224,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", realname=" + realname + ", avatarAttchmentId=" + avatarAttchmentId + ", cellphone=" + cellphone + ", email=" + email + ", sex=" + sex + ", ctime=" + ctime + ", introduction=" + introduction + ", deptId=" + deptId + ", position=" + position + ", officePhone=" + officePhone + ", isDelete=" + isDelete + ", backup=" + backup + "}";
+        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", realname=" + realname + ", avatarUrl=" + avatarUrl + ", cellphone=" + cellphone + ", email=" + email + ", sex=" + sex + ", ctime=" + ctime + ", introduction=" + introduction + ", deptId=" + deptId + ", position=" + position + ", officePhone=" + officePhone + ", isDelete=" + isDelete + ", backup=" + backup + "}";
     }
 }
