@@ -5,10 +5,12 @@ import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Attachment;
 import com.austin.common.service.IAttachmentService;
+import com.austin.common.utils.RandomUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * <p>
@@ -69,17 +72,22 @@ public class AttachmentController {
             at.setExt(fileSuffix);
             String nowTimes = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
             String nowDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            String newFileName = fileName.substring(0, fileName.lastIndexOf(".")) + "-" + nowTimes + "." + fileSuffix;
+            //防止稀奇古怪名字文件上传，强制重命名
+            String newFileName = RandomUtil.randomUUID() + "-" + nowTimes + "." + fileSuffix;
             Path path = Paths.get(FILE_PATH + "/" + nowDate);
             if (!Files.isWritable(path)) Files.createDirectories(path);
             at.setCtime(LocalDateTime.now());
             at.setExt(fileSuffix);
             at.setUrl(PRE_VISIT_URL + "/" + nowDate + "/" + newFileName);
-            this.service.save(at);
+            String serverPath = FILE_PATH + "/" + nowDate + "/" + newFileName;
+            at.setPath(serverPath);
+            at.setIsDelete(0);
             result = Files.write(Paths.get(FILE_PATH + "/" + nowDate + "/" + newFileName), bytes);
+            if(result != null) this.service.save(at);
         } catch (IOException e) {
             return Result.message(CodeMsg.OPERATE_FAIL);
         }
+        at.setPath("");
         return Result.success(at);
     }
 
@@ -95,7 +103,7 @@ public class AttachmentController {
         Attachment attachment = this.service.getById(id);
 
 
-        File file = new File(attachment.getUrl());
+        File file = new File(attachment.getPath());
 
         boolean result = file.delete();
 
