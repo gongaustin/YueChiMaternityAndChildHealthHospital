@@ -1,15 +1,17 @@
 package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -17,62 +19,50 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author AustinGJ
- * @since 2021-03-18
+ * @since 2021-06-02
  */
 @TableName("busi_article")
+@ApiModel(value="Article对象", description="新闻资讯列表")
 public class Article implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    /**
-     * UUID
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "UUID")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 标题
-     */
+    @ApiModelProperty(value = "标题")
+    @TableField("title")
     private String title;
 
-    /**
-     * 所属模块ID
-     */
+    @ApiModelProperty(value = "所属模块ID")
     @TableField("module_id")
     private String moduleId;
 
-    /**
-     * 作者
-     */
+    @ApiModelProperty(value = "作者")
+    @TableField("author")
     private String author;
 
-    /**
-     * 内容
-     */
+    @ApiModelProperty(value = "内容")
+    @TableField("content")
     private String content;
 
-    /**
-     * 发表时间
-     */
+    @ApiModelProperty(value = "发表时间")
+    @TableField("ctime")
     @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
     @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
     private LocalDateTime ctime;
 
-    /**
-     * 附件UUID（只能上传一个附件，多个附件请打包）
-     */
+    @ApiModelProperty(value = "附件UUID（只能上传一个附件，多个附件请打包）")
     @TableField("article_attachment_id")
     private String articleAttachmentId;
 
-    /**
-     * 逻辑删除（1为删除状态，0为未删除状态）
-     */
+    @ApiModelProperty(value = "逻辑删除（1为删除状态，0为未删除状态）")
     @TableField("is_delete")
     private Integer isDelete;
 
-    /**
-     * 备用字段
-     */
+    @ApiModelProperty(value = "备用字段")
+    @TableField("backup")
     private String backup;
 
 
@@ -150,6 +140,16 @@ public class Article implements Serializable {
 
     @Override
     public String toString() {
-        return "Article{" + "id=" + id + ", title=" + title + ", moduleId=" + moduleId + ", author=" + author + ", content=" + content + ", ctime=" + ctime + ", articleAttachmentId=" + articleAttachmentId + ", isDelete=" + isDelete + ", backup=" + backup + "}";
+        return "Article{" +
+        "id=" + id +
+        ", title=" + title +
+        ", moduleId=" + moduleId +
+        ", author=" + author +
+        ", content=" + content +
+        ", ctime=" + ctime +
+        ", articleAttachmentId=" + articleAttachmentId +
+        ", isDelete=" + isDelete +
+        ", backup=" + backup +
+        "}";
     }
 }

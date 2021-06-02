@@ -6,4 +6,6 @@ package com.austin.common.entity;
  * @Date: Created in 16:56 2021/1/18
  */
 public class TestEntity {
+
+
 }

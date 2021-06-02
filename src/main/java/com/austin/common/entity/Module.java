@@ -1,10 +1,12 @@
 package com.austin.common.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -12,49 +14,40 @@ import java.io.Serializable;
  * </p>
  *
  * @author AustinGJ
- * @since 2021-05-14
+ * @since 2021-06-02
  */
 @TableName("busi_module")
+@ApiModel(value="Module对象", description="模块管理")
 public class Module implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    /**
-     * UUID
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "UUID")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 模块名
-     */
+    @ApiModelProperty(value = "模块名")
     @TableField("module_name")
     private String moduleName;
 
-    /**
-     * 展示优先级
-     */
+    @ApiModelProperty(value = "展示优先级")
+    @TableField("priority")
     private Integer priority;
 
-    /**
-     * 等级
-     */
+    @ApiModelProperty(value = "等级")
+    @TableField("level")
     private Integer level;
 
-    /**
-     * 描述
-     */
+    @ApiModelProperty(value = "描述")
+    @TableField("description")
     private String description;
 
-    /**
-     * 父ID
-     */
+    @ApiModelProperty(value = "父ID")
     @TableField("parent_id")
     private String parentId;
 
-    /**
-     * 预留字段
-     */
+    @ApiModelProperty(value = "预留字段")
+    @TableField("backup")
     private String backup;
 
 

@@ -1,105 +1,87 @@
 package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author AustinGJ
- * @since 2021-03-18
+ * @since 2021-06-02
  */
 @TableName("busi_doctor")
+@ApiModel(value="Doctor对象", description="")
 public class Doctor implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    /**
-     * UUID
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "UUID")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 医生姓名
-     */
+    @ApiModelProperty(value = "医生姓名")
+    @TableField("name")
     private String name;
 
-    /**
-     * 医生性别
-     */
+    @ApiModelProperty(value = "医生性别")
+    @TableField("sex")
     private String sex;
 
-    /**
-     * 医生照片
-     */
+    @ApiModelProperty(value = "医生照片")
     @TableField("avatar_url")
     private String avatarUrl;
 
-    /**
-     * 科室ID
-     */
+    @ApiModelProperty(value = "科室ID")
     @TableField("dept_id")
     private String deptId;
 
-    /**
-     * 职称
-     */
+    @ApiModelProperty(value = "职称")
+    @TableField("competent")
     private String competent;
 
-    /**
-     * 职务
-     */
+    @ApiModelProperty(value = "职务")
+    @TableField("title")
     private String title;
 
-    /**
-     * 专长
-     */
+    @ApiModelProperty(value = "专长")
     @TableField("special_talent")
     private String specialTalent;
 
-    /**
-     * 出诊时间
-     */
+    @ApiModelProperty(value = "出诊时间")
     @TableField("visit_time")
     private String visitTime;
 
-    /**
-     * 联系方式(手机、办公室电话)
-     */
+    @ApiModelProperty(value = "联系方式(手机、办公室电话)")
+    @TableField("contact")
     private String contact;
 
-    /**
-     * 简介
-     */
+    @ApiModelProperty(value = "简介")
+    @TableField("description")
     private String description;
 
-    /**
-     * 是否为专家（0：不是、1：是）
-     */
+    @ApiModelProperty(value = "是否为专家（0：不是、1：是）")
     @TableField("is_specialist")
     private Integer isSpecialist;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
+    @TableField("ctime")
     @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
     @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
     private LocalDateTime ctime;
 
-    /**
-     * 逻辑删除标识符（）
-     */
+    @ApiModelProperty(value = "逻辑删除标识符（）")
     @TableField("is_delete")
     private Integer isDelete;
 
@@ -218,6 +200,21 @@ public class Doctor implements Serializable {
 
     @Override
     public String toString() {
-        return "Doctor{" + "id=" + id + ", name=" + name + ", sex=" + sex + ", avatarUrl=" + avatarUrl + ", deptId=" + deptId + ", competent=" + competent + ", title=" + title + ", specialTalent=" + specialTalent + ", visitTime=" + visitTime + ", contact=" + contact + ", description=" + description + ", isSpecialist=" + isSpecialist + ", ctime=" + ctime + ", isDelete=" + isDelete + "}";
+        return "Doctor{" +
+        "id=" + id +
+        ", name=" + name +
+        ", sex=" + sex +
+        ", avatarUrl=" + avatarUrl +
+        ", deptId=" + deptId +
+        ", competent=" + competent +
+        ", title=" + title +
+        ", specialTalent=" + specialTalent +
+        ", visitTime=" + visitTime +
+        ", contact=" + contact +
+        ", description=" + description +
+        ", isSpecialist=" + isSpecialist +
+        ", ctime=" + ctime +
+        ", isDelete=" + isDelete +
+        "}";
     }
 }

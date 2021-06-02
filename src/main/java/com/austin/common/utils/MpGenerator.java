@@ -32,6 +32,7 @@ public class MpGenerator {
                 "upms_user",
                 "upms_log",
                 "upms_dept",
+                "busi_feedback",
                 "busi_article",
                 "busi_doctor",
                 "busi_attachment",
@@ -63,7 +64,10 @@ public class MpGenerator {
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
                 .setCapitalMode(true)
-                .setEntityLombokModel(true)
+                //[true]自动生成lombok注解,去除get和set方法,自动为实体添加数据库字段的注释
+                .setEntityLombokModel(false)
+                //生成TableField注解
+                .setEntityTableFieldAnnotationEnable(true)
                 .setTablePrefix(prefix)
                 .setNaming(NamingStrategy.underline_to_camel)  //转驼峰
                 .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
@@ -71,8 +75,6 @@ public class MpGenerator {
         config
                 //通用查询映射
                 .setBaseResultMap(true)
-                //用用结果查询列
-                .setBaseColumnList(false)
                 //ID类型设置
                 .setIdType(IdType.ASSIGN_UUID)
                 //Swagger

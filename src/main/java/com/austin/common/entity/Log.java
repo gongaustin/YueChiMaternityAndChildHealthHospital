@@ -1,10 +1,12 @@
 package com.austin.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -12,76 +14,66 @@ import java.io.Serializable;
  * </p>
  *
  * @author AustinGJ
- * @since 2021-03-18
+ * @since 2021-06-02
  */
 @TableName("upms_log")
+@ApiModel(value="Log对象", description="操作日志表")
 public class Log implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    /**
-     * 编号
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "编号")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 操作描述
-     */
+    @ApiModelProperty(value = "操作描述")
+    @TableField("description")
     private String description;
 
-    /**
-     * 操作用户
-     */
+    @ApiModelProperty(value = "操作用户")
+    @TableField("username")
     private String username;
 
-    /**
-     * 操作时间
-     */
+    @ApiModelProperty(value = "操作时间")
+    @TableField("start_time")
     private Long startTime;
 
-    /**
-     * 消耗时间
-     */
+    @ApiModelProperty(value = "消耗时间")
+    @TableField("spend_time")
     private Integer spendTime;
 
-    /**
-     * 根路径
-     */
+    @ApiModelProperty(value = "根路径")
+    @TableField("base_path")
     private String basePath;
 
-    /**
-     * URI
-     */
+    @ApiModelProperty(value = "URI")
+    @TableField("uri")
     private String uri;
 
-    /**
-     * URL
-     */
+    @ApiModelProperty(value = "URL")
+    @TableField("url")
     private String url;
 
-    /**
-     * 请求类型
-     */
+    @ApiModelProperty(value = "请求类型")
+    @TableField("method")
     private String method;
 
+    @TableField("parameter")
     private String parameter;
 
-    /**
-     * 用户标识
-     */
+    @ApiModelProperty(value = "用户标识")
+    @TableField("user_agent")
     private String userAgent;
 
-    /**
-     * IP地址
-     */
+    @ApiModelProperty(value = "IP地址")
+    @TableField("ip")
     private String ip;
 
+    @TableField("result")
     private String result;
 
-    /**
-     * 权限值
-     */
+    @ApiModelProperty(value = "权限值")
+    @TableField("permissions")
     private String permissions;
 
 
@@ -199,6 +191,21 @@ public class Log implements Serializable {
 
     @Override
     public String toString() {
-        return "Log{" + "id=" + id + ", description=" + description + ", username=" + username + ", startTime=" + startTime + ", spendTime=" + spendTime + ", basePath=" + basePath + ", uri=" + uri + ", url=" + url + ", method=" + method + ", parameter=" + parameter + ", userAgent=" + userAgent + ", ip=" + ip + ", result=" + result + ", permissions=" + permissions + "}";
+        return "Log{" +
+        "id=" + id +
+        ", description=" + description +
+        ", username=" + username +
+        ", startTime=" + startTime +
+        ", spendTime=" + spendTime +
+        ", basePath=" + basePath +
+        ", uri=" + uri +
+        ", url=" + url +
+        ", method=" + method +
+        ", parameter=" + parameter +
+        ", userAgent=" + userAgent +
+        ", ip=" + ip +
+        ", result=" + result +
+        ", permissions=" + permissions +
+        "}";
     }
 }

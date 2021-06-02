@@ -1,15 +1,17 @@
 package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -17,45 +19,42 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author AustinGJ
- * @since 2021-03-18
+ * @since 2021-06-02
  */
 @TableName("busi_attachment")
+@ApiModel(value="Attachment对象", description="附件表")
 public class Attachment implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    /**
-     * 编号UUID
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "编号UUID")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 附件名称
-     */
+    @ApiModelProperty(value = "附件名称")
     @TableField("file_name")
     private String fileName;
 
-    /**
-     * 附件后缀名
-     */
+    @ApiModelProperty(value = "附件后缀名")
+    @TableField("ext")
     private String ext;
 
-    /**
-     * 附件地址
-     */
+    @ApiModelProperty(value = "附件地址")
+    @TableField("url")
     private String url;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "附件路径")
+    @TableField("path")
+    private String path;
+
+    @ApiModelProperty(value = "创建时间")
+    @TableField("ctime")
     @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
     @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
     private LocalDateTime ctime;
 
-    /**
-     * 逻辑删除（1为删除状态，0为未删除状态）
-     */
+    @ApiModelProperty(value = "逻辑删除（1为删除状态，0为未删除状态）")
+    @TableField("is_delete")
     private Integer isDelete;
 
 
@@ -91,6 +90,14 @@ public class Attachment implements Serializable {
         this.url = url;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public LocalDateTime getCtime() {
         return ctime;
     }
@@ -109,6 +116,14 @@ public class Attachment implements Serializable {
 
     @Override
     public String toString() {
-        return "Attachment{" + "id=" + id + ", fileName=" + fileName + ", ext=" + ext + ", url=" + url + ", ctime=" + ctime + ", isDelete=" + isDelete + "}";
+        return "Attachment{" +
+        "id=" + id +
+        ", fileName=" + fileName +
+        ", ext=" + ext +
+        ", url=" + url +
+        ", path=" + path +
+        ", ctime=" + ctime +
+        ", isDelete=" + isDelete +
+        "}";
     }
 }

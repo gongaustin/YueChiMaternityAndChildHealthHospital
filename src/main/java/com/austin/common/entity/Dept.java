@@ -1,15 +1,17 @@
 package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -17,85 +19,66 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author AustinGJ
- * @since 2021-03-18
+ * @since 2021-06-02
  */
 @TableName("upms_dept")
+@ApiModel(value="Dept对象", description="科室")
 public class Dept implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    /**
-     * UUID
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "UUID")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 科室编号
-     */
+    @ApiModelProperty(value = "科室编号")
     @TableField("dept_no")
     private String deptNo;
 
-    /**
-     * 科室名称
-     */
+    @ApiModelProperty(value = "科室名称")
     @TableField("dept_name")
     private String deptName;
 
-    /**
-     * 科室负责人ID
-     */
+    @ApiModelProperty(value = "科室负责人ID")
     @TableField("leader_doctor_id")
     private String leaderDoctorId;
 
-    /**
-     * 科室描述
-     */
+    @ApiModelProperty(value = "科室描述")
+    @TableField("description")
     private String description;
 
-    /**
-     * 联系电话
-     */
+    @ApiModelProperty(value = "联系电话")
+    @TableField("contact")
     private String contact;
 
-    /**
-     * 科室位置
-     */
+    @ApiModelProperty(value = "科室位置")
+    @TableField("addr")
     private String addr;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
+    @TableField("ctime")
     @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
     @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
     private LocalDateTime ctime;
 
-    /**
-     * 科室照片(附件ID)
-     */
+    @ApiModelProperty(value = "科室照片")
     @TableField("photo_url")
     private String photoUrl;
 
-    /**
-     * 科室类型（临床/五大中心/医技科etc）
-     */
+    @ApiModelProperty(value = "科室类型（临床/五大中心/医技科etc）")
+    @TableField("type")
     private Integer type;
 
-    /**
-     * 是否重点科室（0：不是；1：是）
-     */
+    @ApiModelProperty(value = "是否重点科室（0：不是；1：是）")
     @TableField("is_important")
     private Integer isImportant;
 
-    /**
-     * 逻辑删除标识符
-     */
+    @ApiModelProperty(value = "逻辑删除标识符")
     @TableField("is_delete")
     private Integer isDelete;
 
-    /**
-     * 备用字段
-     */
+    @ApiModelProperty(value = "备用字段")
+    @TableField("backup")
     private String backup;
 
 
@@ -205,6 +188,20 @@ public class Dept implements Serializable {
 
     @Override
     public String toString() {
-        return "Dept{" + "id=" + id + ", deptNo=" + deptNo + ", deptName=" + deptName + ", leaderDoctorId=" + leaderDoctorId + ", description=" + description + ", contact=" + contact + ", addr=" + addr + ", ctime=" + ctime + ", photoUrl=" + photoUrl + ", type=" + type + ", isImportant=" + isImportant + ", isDelete=" + isDelete + ", backup=" + backup + "}";
+        return "Dept{" +
+        "id=" + id +
+        ", deptNo=" + deptNo +
+        ", deptName=" + deptName +
+        ", leaderDoctorId=" + leaderDoctorId +
+        ", description=" + description +
+        ", contact=" + contact +
+        ", addr=" + addr +
+        ", ctime=" + ctime +
+        ", photoUrl=" + photoUrl +
+        ", type=" + type +
+        ", isImportant=" + isImportant +
+        ", isDelete=" + isDelete +
+        ", backup=" + backup +
+        "}";
     }
 }

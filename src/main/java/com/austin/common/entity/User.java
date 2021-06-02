@@ -1,15 +1,17 @@
 package com.austin.common.entity;
 
 import com.austin.common.core.constant.TimeConstant;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -17,93 +19,74 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author AustinGJ
- * @since 2021-03-18
+ * @since 2021-06-02
  */
 @TableName("upms_user")
+@ApiModel(value="User对象", description="网站维护人员表")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    /**
-     * 编号
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @ApiModelProperty(value = "编号")
+      @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    /**
-     * 帐号
-     */
+    @ApiModelProperty(value = "帐号")
+    @TableField("username")
     private String username;
 
-    /**
-     * 密码MD5
-     */
+    @ApiModelProperty(value = "密码MD5")
+    @TableField("password")
     private String password;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
+    @TableField("realname")
     private String realname;
 
-    /**
-     * 头像
-     */
+    @ApiModelProperty(value = "头像")
     @TableField("avatar_url")
     private String avatarUrl;
 
-    /**
-     * 手机
-     */
+    @ApiModelProperty(value = "手机")
+    @TableField("cellphone")
     private String cellphone;
 
-    /**
-     * 邮箱
-     */
+    @ApiModelProperty(value = "邮箱")
+    @TableField("email")
     private String email;
 
-    /**
-     * 性别
-     */
+    @ApiModelProperty(value = "性别")
+    @TableField("sex")
     private String sex;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
+    @TableField("ctime")
     @JsonFormat(timezone = TimeConstant.TIME_ZONE, pattern = TimeConstant.DATETIME_FORMAT)
     @DateTimeFormat(pattern = TimeConstant.DATETIME_FORMAT)
     private LocalDateTime ctime;
 
-    /**
-     * 人员介绍
-     */
+    @ApiModelProperty(value = "人员介绍")
+    @TableField("introduction")
     private String introduction;
 
-    /**
-     * 科室ID
-     */
+    @ApiModelProperty(value = "科室ID")
     @TableField("dept_id")
     private String deptId;
 
-    /**
-     * 职务
-     */
+    @ApiModelProperty(value = "职务")
+    @TableField("position")
     private String position;
 
-    /**
-     * 办公室电话
-     */
+    @ApiModelProperty(value = "办公室电话")
     @TableField("office_phone")
     private String officePhone;
 
-    /**
-     * 逻辑删除标识符
-     */
+    @ApiModelProperty(value = "逻辑删除标识符")
     @TableField("is_delete")
     private Integer isDelete;
 
-    /**
-     * 备用字段
-     */
+    @ApiModelProperty(value = "备用字段")
+    @TableField("backup")
     private String backup;
 
 
@@ -229,6 +212,22 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", realname=" + realname + ", avatarUrl=" + avatarUrl + ", cellphone=" + cellphone + ", email=" + email + ", sex=" + sex + ", ctime=" + ctime + ", introduction=" + introduction + ", deptId=" + deptId + ", position=" + position + ", officePhone=" + officePhone + ", isDelete=" + isDelete + ", backup=" + backup + "}";
+        return "User{" +
+        "id=" + id +
+        ", username=" + username +
+        ", password=" + password +
+        ", realname=" + realname +
+        ", avatarUrl=" + avatarUrl +
+        ", cellphone=" + cellphone +
+        ", email=" + email +
+        ", sex=" + sex +
+        ", ctime=" + ctime +
+        ", introduction=" + introduction +
+        ", deptId=" + deptId +
+        ", position=" + position +
+        ", officePhone=" + officePhone +
+        ", isDelete=" + isDelete +
+        ", backup=" + backup +
+        "}";
     }
 }
