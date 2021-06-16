@@ -76,6 +76,8 @@ public class MyShiroConfig {
         filterRuleMap.put("/401", "anon");
         //不拦截登录接口
         filterRuleMap.put("/**/login", "anon");
+        filterRuleMap.put("/**/list", "anon");
+        filterRuleMap.put("/**/feedback/add", "anon");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
     }

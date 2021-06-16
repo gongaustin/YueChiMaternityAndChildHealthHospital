@@ -40,7 +40,7 @@ public class Swagger2 {
 
     private List<ApiKey> securitySchemes() {
         List<ApiKey> apiKeys = new ArrayList<>();
-        apiKeys.add(new ApiKey("Authorization", "Authorization", "header"));
+        apiKeys.add(new ApiKey("  ", "Authorization", "header"));
         return apiKeys;
     }
     //设置过滤规则 

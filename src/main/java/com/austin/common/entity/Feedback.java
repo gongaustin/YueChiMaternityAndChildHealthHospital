@@ -39,6 +39,10 @@ public class Feedback implements Serializable {
     @TableField("contact")
     private String contact;
 
+    @ApiModelProperty(value = "标题/扼要")
+    @TableField("title")
+    private String title;
+
     @ApiModelProperty(value = "内容")
     @TableField("content")
     private String content;
@@ -68,6 +72,14 @@ public class Feedback implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContact() {
@@ -107,6 +119,7 @@ public class Feedback implements Serializable {
         return "Feedback{" +
         "id=" + id +
         ", name=" + name +
+        ", title=" + title +
         ", contact=" + contact +
         ", content=" + content +
         ", ctime=" + ctime +

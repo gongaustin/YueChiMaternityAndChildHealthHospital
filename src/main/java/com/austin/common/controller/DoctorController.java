@@ -1,7 +1,6 @@
 package com.austin.common.controller;
 
 
-import com.austin.common.config.beanutils.SpringBeanFactoryUtils;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Doctor;

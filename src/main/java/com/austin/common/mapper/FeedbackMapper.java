@@ -2,6 +2,7 @@ package com.austin.common.mapper;
 
 import com.austin.common.entity.Feedback;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author AustinGJ
  * @since 2021-06-02
  */
+@Mapper
 public interface FeedbackMapper extends BaseMapper<Feedback> {
 
 }
