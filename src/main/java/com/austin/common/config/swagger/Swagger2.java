@@ -1,17 +1,22 @@
 package com.austin.common.config.swagger;
 
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,21 +31,32 @@ public class Swagger2 {
 
     @Bean
     public Docket createRestApi() {
+
+        ParameterBuilder ticketPar = new ParameterBuilder();
+        List<Parameter> pars = new ArrayList<>();
+        ticketPar.name("Authorization").description("token")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .defaultValue("Bearer ")
+                .required(false)
+                .build();
+        pars.add(ticketPar.build());
         return new Docket(DocumentationType.SWAGGER_2)
+                .directModelSubstitute(LocalDateTime.class, String.class)
+                .directModelSubstitute(Date.class, String.class)
                 .apiInfo(apiInfo())
                 .select()
-                //扫描包路径
                 .apis(RequestHandlerSelectors.basePackage("com.austin.common.controller"))
-                .paths(PathSelectors.any())
+                .paths(Predicates.not(PathSelectors.regex("/error.*")))
                 .build()
-                //显示操作带token的UI
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts());
     }
 
+
     private List<ApiKey> securitySchemes() {
         List<ApiKey> apiKeys = new ArrayList<>();
-        apiKeys.add(new ApiKey("  ", "Authorization", "header"));
+        apiKeys.add(new ApiKey("token", "Authorization", "header"));
         return apiKeys;
     }
     //设置过滤规则 
