@@ -96,11 +96,11 @@ public class FeedbackController {
     }
 
 
-    @ApiOperation(value = "回复意见", notes = "回复意见")
+    @ApiOperation(value = "处理结果", notes = "处理结果")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "id", value = "意见ID", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "result", value = "回复意见", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "result", value = "处理结果", required = true, dataType = "String"),
             }
     )
     @PostMapping(value = "/update", params = {"id"})
@@ -114,7 +114,7 @@ public class FeedbackController {
     @ApiOperation(value = "删除意见", notes = "删除意见")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "id", value = "意见ID", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = true, dataType = "String"),
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
