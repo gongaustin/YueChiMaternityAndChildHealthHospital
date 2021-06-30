@@ -10,11 +10,21 @@ import com.austin.common.entity.Doctor;
 public class DoctorVo extends Doctor {
     private String deptName;
 
+    private String avatarId;
+
     public String getDeptName() {
         return deptName;
     }
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
+    }
+
+    public String getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(String avatarId) {
+        this.avatarId = avatarId;
     }
 }

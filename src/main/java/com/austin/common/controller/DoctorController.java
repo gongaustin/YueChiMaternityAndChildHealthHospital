@@ -3,24 +3,31 @@ package com.austin.common.controller;
 
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
+import com.austin.common.entity.Attachment;
 import com.austin.common.entity.Doctor;
 import com.austin.common.entity.vo.DoctorVo;
+import com.austin.common.entity.vo.UserVo;
+import com.austin.common.service.IAttachmentService;
 import com.austin.common.service.IDoctorService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -38,6 +45,9 @@ public class DoctorController {
 
     @Autowired
     public IDoctorService service;
+
+    @Autowired
+    public IAttachmentService as;
 
 
     //分页查询
@@ -72,7 +82,26 @@ public class DoctorController {
         }
         ew.orderByDesc("ctime");
         page = service.selectVoPage(page, ew);
-        return Result.success(page);
+
+        List<DoctorVo> doctorVos = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(page.getRecords())){
+            page.getRecords().forEach(e->{
+                DoctorVo doctorVo = new DoctorVo();
+                //按相同属性名进行值拷贝
+                BeanUtils.copyProperties(e,doctorVo);
+                if(StringUtils.isNotBlank(e.getAvatarUrl())){
+                    QueryWrapper<Attachment> qw = new QueryWrapper();
+                    qw.eq("url",e.getAvatarUrl());
+                    doctorVo.setAvatarId(this.as.getOne(qw).getId());
+                }
+                doctorVos.add(doctorVo);
+            });
+        }
+        Page<DoctorVo> voPage = new Page<>();
+
+        BeanUtils.copyProperties(page,voPage);
+        voPage.setRecords(doctorVos);
+        return Result.success(voPage);
     }
 
 
@@ -101,8 +130,8 @@ public class DoctorController {
                     @ApiImplicitParam(paramType = "query", name = "description", value = "简介", required = false, dataType = "String"),
             }
     )
-    @PostMapping(value = "/add", params = {"name","type","content"})
-    private Result deleteLogicById(@NotNull Doctor doctor) {
+    @PostMapping(value = "/add", params = {"name"})
+    private Result addDoctor(@NotNull Doctor doctor) {
         boolean b = this.service.save(doctor);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
