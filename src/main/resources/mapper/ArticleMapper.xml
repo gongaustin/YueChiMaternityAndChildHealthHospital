@@ -9,6 +9,7 @@
         <result column="module_id" property="moduleId" />
         <result column="author" property="author" />
         <result column="content" property="content" />
+        <result column="summary" property="summary" />
         <result column="ctime" property="ctime" />
         <result column="article_attachment_id" property="articleAttachmentId" />
         <result column="is_delete" property="isDelete" />

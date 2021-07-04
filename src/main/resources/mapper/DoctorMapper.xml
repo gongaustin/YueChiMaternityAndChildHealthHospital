@@ -37,7 +37,18 @@
 
     <select id="selectVoPage" resultMap="BaseVoResultMap">
         select a.* from(
-        select t.*,d.dept_name from busi_doctor t left join upms_dept d on d.id = t.dept_id
+        SELECT
+        DISTINCT
+        t.*,
+        d.`id` AS deptId,
+        d.`dept_name`,
+        b.`id` AS avatarId
+        FROM
+        busi_doctor t
+        LEFT JOIN upms_dept d
+        ON d.id = t.dept_id
+        LEFT JOIN busi_attachment b
+        ON t.`avatar_url` = b.`url`
         ) a
         <include refid="queryConditions"></include>
     </select>

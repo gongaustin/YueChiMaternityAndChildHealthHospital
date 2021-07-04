@@ -58,13 +58,14 @@ public class DoctorController {
                     @ApiImplicitParam(paramType = "query", name = "size", value = "分页大小", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "isDelete", value = "删除标识符", required = false, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "id", value = "ID", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptId", value = "科室ID", required = false, dataType = "String"),
             }
             )
     @GetMapping("/list")
-    private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id) {
-        Page<DoctorVo> page = new Page<>();
-        page.setCurrent(current);
-        page.setSize(size);
+    private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id,String deptId) {
+        Page<DoctorVo> voPage = new Page<>();
+        voPage.setCurrent(current);
+        voPage.setSize(size);
         QueryWrapper<DoctorVo> ew = new QueryWrapper();
         if (StringUtils.isNotBlank(keyword)) {
             ew.and(wrapper -> wrapper
@@ -80,27 +81,16 @@ public class DoctorController {
         if(StringUtils.isNotBlank(id)){
             ew.eq("id",id);
         }
+        if(StringUtils.isNotBlank(deptId)){
+            ew.eq("deptId",deptId);
+        }
         ew.orderByDesc("ctime");
-        page = service.selectVoPage(page, ew);
-
-        List<DoctorVo> doctorVos = Lists.newArrayList();
-        if(CollectionUtils.isNotEmpty(page.getRecords())){
-            page.getRecords().forEach(e->{
-                DoctorVo doctorVo = new DoctorVo();
-                //按相同属性名进行值拷贝
-                BeanUtils.copyProperties(e,doctorVo);
-                if(StringUtils.isNotBlank(e.getAvatarUrl())){
-                    QueryWrapper<Attachment> qw = new QueryWrapper();
-                    qw.eq("url",e.getAvatarUrl());
-                    doctorVo.setAvatarId(this.as.getOne(qw).getId());
-                }
-                doctorVos.add(doctorVo);
+        voPage = service.selectVoPage(voPage, ew);
+        if(StringUtils.isBlank(id)){
+            voPage.getRecords().forEach(e->{
+                e.setDescription("");
             });
         }
-        Page<DoctorVo> voPage = new Page<>();
-
-        BeanUtils.copyProperties(page,voPage);
-        voPage.setRecords(doctorVos);
         return Result.success(voPage);
     }
 

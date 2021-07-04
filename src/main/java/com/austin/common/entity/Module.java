@@ -46,6 +46,10 @@ public class Module implements Serializable {
     @TableField("parent_id")
     private String parentId;
 
+    @ApiModelProperty(value = "是否允许child")
+    @TableField("allow_children")
+    private String allowChildren;
+
     @ApiModelProperty(value = "预留字段")
     @TableField("backup")
     private String backup;
@@ -99,6 +103,14 @@ public class Module implements Serializable {
         this.parentId = parentId;
     }
 
+    public String getAllowChildren() {
+        return allowChildren;
+    }
+
+    public void setAllowChildren(String allowChildren) {
+        this.allowChildren = allowChildren;
+    }
+
     public String getBackup() {
         return backup;
     }
@@ -116,6 +128,7 @@ public class Module implements Serializable {
         ", level=" + level +
         ", description=" + description +
         ", parentId=" + parentId +
+        ", allowChildren=" + allowChildren +
         ", backup=" + backup +
         "}";
     }

@@ -22,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since 2021-06-02
  */
 @TableName("busi_article")
-@ApiModel(value="Article对象", description="新闻资讯列表")
+@ApiModel(value="Article对象", description="新闻资讯")
 public class Article implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -46,6 +46,10 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "内容")
     @TableField("content")
     private String content;
+
+    @ApiModelProperty(value = "摘要")
+    @TableField("summary")
+    private String summary;
 
     @ApiModelProperty(value = "发表时间")
     @TableField("ctime")
@@ -106,6 +110,14 @@ public class Article implements Serializable {
         this.content = content;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public LocalDateTime getCtime() {
         return ctime;
     }
@@ -146,6 +158,7 @@ public class Article implements Serializable {
         ", moduleId=" + moduleId +
         ", author=" + author +
         ", content=" + content +
+        ", summary=" + summary +
         ", ctime=" + ctime +
         ", articleAttachmentId=" + articleAttachmentId +
         ", isDelete=" + isDelete +

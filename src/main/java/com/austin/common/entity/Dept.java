@@ -67,7 +67,7 @@ public class Dept implements Serializable {
 
     @ApiModelProperty(value = "科室类型（临床/五大中心/医技科etc）")
     @TableField("type")
-    private Integer type;
+    private String type;
 
     @ApiModelProperty(value = "是否重点科室（0：不是；1：是）")
     @TableField("is_important")
@@ -154,11 +154,11 @@ public class Dept implements Serializable {
         this.photoUrl = photoUrl;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

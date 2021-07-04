@@ -78,6 +78,7 @@ public class MyShiroConfig {
         filterRuleMap.put("/**/login", "anon");
         filterRuleMap.put("/**/list", "anon");
         filterRuleMap.put("/**/feedback/add", "anon");
+        filterRuleMap.put("/**/module/selectByParent", "anon");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
     }
