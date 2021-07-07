@@ -67,11 +67,6 @@ public class FeedbackController {
         }
         ew.orderByDesc("ctime");
         page = this.service.page(page,ew);
-        if(StringUtils.isBlank(id)){
-            page.getRecords().forEach(e -> {
-                e.setContent("");
-            });
-        }
         return Result.success(page);
     }
 

@@ -5,14 +5,18 @@ import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Dept;
 import com.austin.common.service.IDeptService;
+import com.austin.common.utils.MyHtmlHelper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +67,11 @@ public class DeptController {
         }
         ew.orderByDesc("ctime");
         page = service.page(page,ew);
+        if(StringUtils.isBlank(id) && CollectionUtils.isNotEmpty(page.getRecords())){
+            page.getRecords().forEach(e->{
+                e.setDescription("");
+            });
+        }
 
         return Result.success(page);
     }
@@ -93,6 +102,8 @@ public class DeptController {
     )
     @PostMapping(value = "/add", params = {"deptName","description"})
     private Result deleteLogicById(@NotNull Dept dept) {
+        String summary = MyHtmlHelper.subHtmlText(dept.getDescription(),200);
+        dept.setSummary(summary);
         boolean b = this.service.save(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
@@ -112,11 +123,14 @@ public class DeptController {
     )
     @PostMapping(value = "/update", params = {"id"})
     private Result updateById(@NotNull Dept dept) {
+        String summary = MyHtmlHelper.subHtmlText(dept.getDescription(),200);
+        dept.setSummary(summary);
         boolean b = this.service.updateById(dept);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }
     //ID逻辑删除
+
 
 
     //ID逻辑删除

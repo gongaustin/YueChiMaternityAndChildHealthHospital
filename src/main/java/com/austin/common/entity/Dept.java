@@ -47,6 +47,11 @@ public class Dept implements Serializable {
     @TableField("description")
     private String description;
 
+    @ApiModelProperty(value = "科室简介")
+    @TableField("summary")
+    private String summary;
+
+
     @ApiModelProperty(value = "联系电话")
     @TableField("contact")
     private String contact;
@@ -122,6 +127,14 @@ public class Dept implements Serializable {
         this.description = description;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public String getContact() {
         return contact;
     }
@@ -194,6 +207,7 @@ public class Dept implements Serializable {
         ", deptName=" + deptName +
         ", leaderDoctorId=" + leaderDoctorId +
         ", description=" + description +
+        ", summary=" + summary +
         ", contact=" + contact +
         ", addr=" + addr +
         ", ctime=" + ctime +

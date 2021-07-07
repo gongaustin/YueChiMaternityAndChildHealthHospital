@@ -5,16 +5,23 @@ import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.core.constant.YiYuanConstant;
 import com.austin.common.entity.Article;
+import com.austin.common.entity.Module;
 import com.austin.common.entity.vo.ArticleVo;
 import com.austin.common.service.IArticleService;
+import com.austin.common.service.IModuleService;
+import com.austin.common.utils.MyHtmlHelper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +29,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 /**
@@ -57,6 +67,9 @@ public class ArticleController {
     @Autowired
     public IArticleService service;
 
+    @Autowired
+    public IModuleService moduleService;
+
     //分页查询
     @ApiOperation(value = "查询文章(分页、ID、模糊)", notes = "查询文章(分页、ID、模糊)")
     /**
@@ -82,7 +95,26 @@ public class ArticleController {
             ew.and(wrapper -> wrapper.like("title", keyword).or().like("author", keyword));
         }
         if (StringUtils.isNotBlank(moduleId)) {
-            ew.eq("module_id", moduleId);
+            Module m = this.moduleService.getById(moduleId);
+            if(m != null){
+                if(m.getLevel() == 1){
+                    QueryWrapper<Module> qw = new QueryWrapper<>();
+                    qw.eq("parent_id",moduleId);
+                    List<Module> smodules = this.moduleService.list(qw);
+                    if(CollectionUtils.isNotEmpty(smodules)){
+                        List<String> sids = smodules.stream().map(Module::getId)
+                        .collect(Collectors.toList());
+                        sids.add(moduleId);
+                        ew.in("module_id",sids);
+                    }else {
+                        ew.eq("module_id",moduleId);
+                    }
+                }
+                if(m.getLevel() == 2){
+                    ew.eq("module_id",moduleId);
+                }
+            }
+
         }
         if (null != isDelete) {
             ew.eq("is_delete", isDelete);
@@ -92,8 +124,8 @@ public class ArticleController {
         }
         ew.orderByDesc("ctime");
         page = this.service.selectVoPage(page, ew);
-        if(StringUtils.isBlank(id)){
-            page.getRecords().forEach(e -> {
+        if(StringUtils.isBlank(id) && CollectionUtils.isNotEmpty(page.getRecords())){
+            page.getRecords().forEach(e->{
                 e.setContent("");
             });
         }
@@ -123,6 +155,8 @@ public class ArticleController {
     )
     @PostMapping(value = "/add", params = {"title","content"})
     private Result deleteLogicById(@NotNull Article article) {
+        String summary = MyHtmlHelper.subHtmlText(article.getContent(),200);
+        article.setSummary(summary);
         article.setAuthor(YiYuanConstant.HOSPITAL_NAME);
         boolean b = this.service.save(article);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
@@ -141,6 +175,8 @@ public class ArticleController {
     )
     @PostMapping(value = "/update", params = {"id"})
     private Result updateById(@NotNull Article article) {
+        String summary = MyHtmlHelper.subHtmlText(article.getContent(),200);
+        article.setSummary(summary);
         boolean b = this.service.updateById(article);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
@@ -174,6 +210,13 @@ public class ArticleController {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
+    }
+
+    @Test
+    public void ss(){
+        String s = StringUtils.replaceAll(UUID.randomUUID().toString(),"-","");
+        String sa =s.substring(0, Math.min(s.length(), 200));
+        System.out.println(sa);
     }
 
 }

@@ -86,11 +86,6 @@ public class DoctorController {
         }
         ew.orderByDesc("ctime");
         voPage = service.selectVoPage(voPage, ew);
-        if(StringUtils.isBlank(id)){
-            voPage.getRecords().forEach(e->{
-                e.setDescription("");
-            });
-        }
         return Result.success(voPage);
     }
 
