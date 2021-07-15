@@ -8,6 +8,7 @@ package com.austin.common.core.bean;
 public class CodeMsg {
     //通用的异常
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
+    public static CodeMsg CAPTCHA_ERROR = new CodeMsg(10000, "验证码错误或已过期");
     public static CodeMsg SERVER_ERROR = new CodeMsg(50000, "服务端异常");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(50001, "密码不能为空");
     public static CodeMsg MOBILE_EMPTY = new CodeMsg(50002, "手机号不能为空");

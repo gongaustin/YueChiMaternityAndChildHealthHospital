@@ -5,12 +5,11 @@ import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.Attachment;
 import com.austin.common.service.IAttachmentService;
-import com.austin.common.utils.RandomUtil;
+import com.austin.common.utils.MyRandomUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * <p>
@@ -45,7 +43,6 @@ import java.util.UUID;
 @Api("附件前端控制器")
 public class AttachmentController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     public IAttachmentService service;
     @Value("${file.upload-folder}")
@@ -73,7 +70,7 @@ public class AttachmentController {
             String nowTimes = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
             String nowDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             //防止稀奇古怪名字文件上传，强制重命名
-            String newFileName = RandomUtil.randomUUID() + "-" + nowTimes + "." + fileSuffix;
+            String newFileName = MyRandomUtils.randomUUID() + "-" + nowTimes + "." + fileSuffix;
             Path path = Paths.get(FILE_PATH + "/" + nowDate);
             if (!Files.isWritable(path)) Files.createDirectories(path);
             at.setCtime(LocalDateTime.now());

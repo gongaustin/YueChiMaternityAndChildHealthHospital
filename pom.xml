@@ -269,8 +269,17 @@
             <artifactId>jsoup</artifactId>
             <version>1.12.1</version>
         </dependency>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
+        </dependency>
+
 
     </dependencies>
+
+
 
 
     <dependencyManagement>
@@ -292,6 +301,16 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+       <!--如果要读取的文件是放在src下，需要特别注意：Maven默认不会将src下的资源文件打包到classpath路径下，所以要在pom.xml中追加下面的配置-->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
     </build>
 
     <repositories>

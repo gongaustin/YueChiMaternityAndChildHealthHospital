@@ -3,28 +3,27 @@ package com.austin.common.controller;
 
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
-import com.austin.common.core.constant.YiYuanConstant;
 import com.austin.common.entity.User;
+import com.austin.common.entity.vo.ValidBase64CodeVO;
 import com.austin.common.service.IUserService;
-import com.austin.common.utils.JWTUtil;
-import com.austin.common.utils.Md5;
+import com.austin.common.utils.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Map;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -37,7 +36,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/login")
 @Api("登录前端控制器")
-public class LoginController {
+public class LoginController{
+
+    @Autowired
+    public RedisTemplate redisTemplate;
 
     @Autowired
     public IUserService service;
@@ -50,7 +52,11 @@ public class LoginController {
             }
     )
     @PostMapping(params = {"username","password"})
-    private Result login(@NotBlank String username,@NotBlank String password){
+    private Result login(@NotBlank String username,@NotBlank String password,String key,String captcha){
+
+        String code = this.redisTemplate.opsForValue().get(key)+"";
+        if(!StringUtils.equalsIgnoreCase(code,captcha)) return Result.message(CodeMsg.CAPTCHA_ERROR);
+
         QueryWrapper<User> ew = new QueryWrapper<>();
         ew.eq("username",username);
         User user = this.service.getOne(ew);
@@ -65,6 +71,25 @@ public class LoginController {
         int isAdmin = 0;
         if(StringUtils.equalsIgnoreCase("admin",username)) isAdmin = 1;
         return Result.success(ImmutableMap.of("Authorization",token,"isAdmin",isAdmin,"msg","login success!"));
+    }
+
+
+    @ApiOperation(value = "BASE64验证码")
+    @GetMapping("/base64Code")
+    public Result getCaptchaCode() {
+        CaptchaUtil instance = CaptchaUtil.getInstance();
+        // 验证码标识
+        String key = MyRandomUtils.randomUUID();
+        this.redisTemplate.opsForValue().set(key, instance.getCode(), CaptchaUtil.DEFAULT_CACHE_TIME, TimeUnit.SECONDS);
+        System.out.println(instance.getCode());
+        // 将图像输出到Servlet输出流中。
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(instance.getBuffImg(), "jpeg", out);
+            return Result.success(new ValidBase64CodeVO(Base64Utils.encodeToString(out.toByteArray()), "image/jpeg", key));
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
 }
