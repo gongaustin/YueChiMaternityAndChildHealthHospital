@@ -1,5 +1,7 @@
 package com.austin.common;
 
+import com.austin.common.utils.CaptchaUtil;
+import org.junit.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;

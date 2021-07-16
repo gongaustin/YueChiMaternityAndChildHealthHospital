@@ -1,5 +1,7 @@
 package com.austin.common.utils;
 
+import org.junit.Test;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -97,14 +99,15 @@ public class CaptchaUtil {
     public String getCode() {
         return code;
     }
-
+    //生成四位随机码
     public static String keyCreate(String str){
         StringBuilder st=new StringBuilder(4);
         for(int i=0;i<4;i++){
             char ch=str.charAt(new Random().nextInt(str.length()));
             st.append(ch);
         }
-        String findkey=st.toString().toLowerCase();
+        String findkey=st.toString();
         return findkey;
     }
+
 }
