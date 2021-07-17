@@ -3,6 +3,8 @@ package com.austin.common.controller;
 
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
+import com.austin.common.core.constant.IconConstant;
+import com.austin.common.core.constant.YiYuanConstant;
 import com.austin.common.entity.Dept;
 import com.austin.common.service.IDeptService;
 import com.austin.common.utils.MyHtmlHelper;
@@ -98,6 +100,7 @@ public class DeptController {
                     @ApiImplicitParam(paramType = "query", name = "contact", value = "科室联系方式", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "isImportant", value = "是否重点特色科室(0:不是,1:是)", required = true, dataType = "int"),
                     @ApiImplicitParam(paramType = "query", name = "addr", value = "科室地址", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "addr", value = "科室地址", required = false, dataType = "String"),
             }
     )
     @PostMapping(value = "/add", params = {"deptName","description"})
@@ -160,6 +163,13 @@ public class DeptController {
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
     }
+
+    @ApiOperation(value = "查询ICON", notes = "查询ICON")
+    @GetMapping(value = "/selectIcons")
+    public Result selectIcons(){
+        return Result.success(IconConstant.getIcons());
+    }
+
 
 }
 

@@ -70,6 +70,10 @@ public class Dept implements Serializable {
     @TableField("photo_url")
     private String photoUrl;
 
+    @ApiModelProperty(value = "科室ICON")
+    @TableField("icon")
+    private String icon;
+
     @ApiModelProperty(value = "科室类型（临床/五大中心/医技科etc）")
     @TableField("type")
     private String type;
@@ -167,6 +171,14 @@ public class Dept implements Serializable {
         this.photoUrl = photoUrl;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     public String getType() {
         return type;
     }
@@ -212,6 +224,7 @@ public class Dept implements Serializable {
         ", addr=" + addr +
         ", ctime=" + ctime +
         ", photoUrl=" + photoUrl +
+        ", icon=" + icon +
         ", type=" + type +
         ", isImportant=" + isImportant +
         ", isDelete=" + isDelete +
