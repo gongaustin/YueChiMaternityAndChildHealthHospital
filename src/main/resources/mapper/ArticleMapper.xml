@@ -33,7 +33,7 @@
 
     <select id="selectVoPage" resultMap="BaseVoResultMap">
         select a.* from(
-        select t.*,d.module_name from busi_article t left join busi_module d on d.id = t.module_id
+        SELECT t.*,d.module_name,b.url AS article_attachment_url FROM busi_article t LEFT JOIN busi_module d ON d.id = t.module_id LEFT JOIN busi_attachment b ON b.id = t.article_attachment_id
         ) a
         <include refid="queryConditions"></include>
     </select>

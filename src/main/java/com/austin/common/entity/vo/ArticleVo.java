@@ -10,11 +10,21 @@ import com.austin.common.entity.Article;
 public class ArticleVo extends Article {
     private String moduleName;
 
+    private String articleAttachmentUrl;
+
     public String getModuleName() {
         return moduleName;
     }
 
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
+    }
+
+    public String getArticleAttachmentUrl() {
+        return articleAttachmentUrl;
+    }
+
+    public void setArticleAttachmentUrl(String articleAttachmentUrl) {
+        this.articleAttachmentUrl = articleAttachmentUrl;
     }
 }
