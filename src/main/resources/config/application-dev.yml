@@ -5,9 +5,9 @@ spring:
     type: redis
   data:
     #mongodb config
-    mongodb:
-      database: test
-      uri: mongodb://120.24.241.113:27017
+#    mongodb:
+#      database: test
+#      uri: mongodb://120.24.241.113:27017
   #mysql config,时区UCT+8(serverTimezone)慎用
   datasource:
     url: jdbc:mysql://120.24.241.113:3306/yuechi_hospital?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&&useSSL=true
