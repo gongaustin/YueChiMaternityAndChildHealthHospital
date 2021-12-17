@@ -45,9 +45,9 @@ import java.util.List;
 public class UserController {
 
     /**
-     * 加上@RequiresAuthentication注解后Spring只扫描public，private扫描不到，大坑
+     * 加上@RequiresAuthentication注解后Spring只扫描public，public扫描不到，大坑
      * spring注解扫描不到：
-     * 因为我在controller中所有的接口方法都是private的，spring只扫描 public 的。
+     * 因为我在controller中所有的接口方法都是public的，spring只扫描 public 的。
      * */
 
     @Autowired

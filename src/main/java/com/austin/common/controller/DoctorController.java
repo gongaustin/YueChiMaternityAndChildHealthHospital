@@ -62,7 +62,7 @@ public class DoctorController {
             }
             )
     @GetMapping("/list")
-    private Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id,String deptId) {
+    public Result getDoctorByPage(@RequestParam(defaultValue = "1") Integer current,@RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete,String id,String deptId) {
         Page<DoctorVo> voPage = new Page<>();
         voPage.setCurrent(current);
         voPage.setSize(size);
@@ -94,7 +94,7 @@ public class DoctorController {
     @ApiOperation(value = "ID查询医生", notes = "ID查询医生")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
     @GetMapping(value = "/selectById", params = {"id"})
-    private Result getDoctorByID(@NotBlank String id) {
+    public Result getDoctorByID(@NotBlank String id) {
         Doctor dr = this.service.getById(id);
         return Result.success(dr);
     }
@@ -116,7 +116,7 @@ public class DoctorController {
             }
     )
     @PostMapping(value = "/add", params = {"name"})
-    private Result addDoctor(@NotNull Doctor doctor) {
+    public Result addDoctor(@NotNull Doctor doctor) {
         boolean b = this.service.save(doctor);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
@@ -138,7 +138,7 @@ public class DoctorController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    private Result updateById(@NotNull Doctor doctor) {
+    public Result updateById(@NotNull Doctor doctor) {
         boolean b = this.service.updateById(doctor);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
@@ -150,7 +150,7 @@ public class DoctorController {
     @ApiOperation(value = "删除医生(逻辑删除)", notes = "删除医生(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "医生ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-    private Result deleteLogicById(@NotBlank String id) {
+    public Result deleteLogicById(@NotBlank String id) {
         Doctor doctor = new Doctor();
         doctor.setId(id);
         doctor.setIsDelete(1);
@@ -168,7 +168,7 @@ public class DoctorController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    private Result deletePhysicsById(@NotBlank String id) {
+    public Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);

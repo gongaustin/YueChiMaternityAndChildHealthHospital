@@ -1,3 +1,44 @@
 #清理僵尸进程
 
 lsof | grep delete | awk -F ' ' '{ print $2}'|xargs kill -9
+
+
+#postman加密测试  pre-request script
+
+var aesKey = "0l80g3GKgIDYc59I";
+if('POST' == request.method && 'product' == pm.environment.get("env")) {
+    const echoPostRequest = {
+        url: request.url,
+        method:'POST',
+        header:'Content-Type:application/json',
+        body: encrypt(request.data, aesKey)
+    };
+    pm.sendRequest(echoPostRequest, function (err, res) {
+        console.log("request body -> " + echoPostRequest.body);
+        console.log("response body -> " + res.text());
+        var result = decrypt(res.text(), aesKey);
+        console.log("response body decrypted -> " + result);
+    });
+}
+
+// AES 加密方法
+// word是加密内容，keyStr是秘钥
+// ECB：加密算法，padding：对齐方式
+// ciphertext：16进制加密，不加此方法就是Base64加密
+function  encrypt(word, keyStr){
+  var key  = CryptoJS.enc.Utf8.parse(keyStr);
+  var srcs = CryptoJS.enc.Utf8.parse(word);
+  console.log('content:'+word);
+  var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs5});
+  return encrypted.toString();
+}
+
+//解密
+function decrypt(word, keyStr){
+  //console.log('decrypt key:' + keyStr);
+  var key  = CryptoJS.enc.Utf8.parse(keyStr);
+  let base64 = CryptoJS.enc.Base64.parse(word);
+  let src =  CryptoJS.enc.Base64.stringify(base64);
+  var decrypt = CryptoJS.AES.decrypt(src, key, {mode:CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs5});
+  return decrypt.toString(CryptoJS.enc.Utf8);
+}

@@ -86,7 +86,7 @@ public class ArticleController {
             }
             )
     @GetMapping("/list")
-    private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete,String id) {
+    public Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, String moduleId, Integer isDelete,String id) {
         Page<ArticleVo> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -136,7 +136,7 @@ public class ArticleController {
 //    @ApiOperation(value = "ID查询文章", notes = "ID查询文章")
 //    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
 //    @GetMapping(value = "/selectById", params = {"id"})
-    private Result getArticleByID(@NotBlank String id) {
+    public Result getArticleByID(@NotBlank String id) {
         Article ae = this.service.getById(id);
         return Result.success(ae);
     }
@@ -154,7 +154,7 @@ public class ArticleController {
             }
     )
     @PostMapping(value = "/add", params = {"title","content"})
-    private Result deleteLogicById(@NotNull Article article) {
+    public Result deleteLogicById(@NotNull Article article) {
         String summary = MyHtmlHelper.subHtmlText(article.getContent(),200);
         article.setSummary(summary);
         article.setAuthor(YiYuanConstant.HOSPITAL_NAME);
@@ -174,7 +174,7 @@ public class ArticleController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    private Result updateById(@NotNull Article article) {
+    public Result updateById(@NotNull Article article) {
         String summary = MyHtmlHelper.subHtmlText(article.getContent(),200);
         article.setSummary(summary);
         boolean b = this.service.updateById(article);
@@ -188,7 +188,7 @@ public class ArticleController {
     @ApiOperation(value = "删除文章(逻辑删除)", notes = "删除文章(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "文章ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-    private Result deleteLogicById(@NotBlank String id) {
+    public Result deleteLogicById(@NotBlank String id) {
         Article article = new Article();
         article.setId(id);
         article.setIsDelete(1);
@@ -206,7 +206,7 @@ public class ArticleController {
             }
             )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    private Result deletePhysicsById(@NotBlank String id) {
+    public Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);

@@ -46,9 +46,9 @@ public class AttachmentController {
     @Autowired
     public IAttachmentService service;
     @Value("${file.upload-folder}")
-    private String FILE_PATH;
+    public String FILE_PATH;
     @Value("${file.pre-visit-url}")
-    private String PRE_VISIT_URL;
+    public String PRE_VISIT_URL;
 
     @ApiOperation(value = "上传文件", notes = "上传文件")
     @ApiImplicitParams(
@@ -57,7 +57,7 @@ public class AttachmentController {
             }
     )
     @PostMapping(value = "/upload")
-    private Result writeFile(@NotNull MultipartFile file) {
+    public Result writeFile(@NotNull MultipartFile file) {
         Attachment at = new Attachment();
         byte[] bytes;
         Path result = null;
@@ -96,7 +96,7 @@ public class AttachmentController {
             }
     )
     @PostMapping(value = "/delete" , params = {"id"})
-    private Result deleteFile(@NotNull String id){
+    public Result deleteFile(@NotNull String id){
         Attachment attachment = this.service.getById(id);
 
 

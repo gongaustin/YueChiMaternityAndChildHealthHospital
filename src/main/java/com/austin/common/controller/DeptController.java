@@ -53,7 +53,7 @@ public class DeptController {
             }
             )
     @GetMapping("/list")
-    private Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete, String id) {
+    public Result getDeptByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword, Integer isDelete, String id) {
         Page<Dept> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -83,7 +83,7 @@ public class DeptController {
 //    @ApiOperation(value = "ID查询科室", notes = "ID查询科室")
 //    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "查询ID", required = true, dataType = "String"),})
 //    @GetMapping(value = "/selectById", params = {"id"})
-    private Result getDeptByID(@NotBlank String id) {
+    public Result getDeptByID(@NotBlank String id) {
         Dept dt = this.service.getById(id);
         return Result.success(dt);
     }
@@ -104,7 +104,7 @@ public class DeptController {
             }
     )
     @PostMapping(value = "/add", params = {"deptName","description"})
-    private Result deleteLogicById(@NotNull Dept dept) {
+    public Result deleteLogicById(@NotNull Dept dept) {
         String summary = MyHtmlHelper.subHtmlText(dept.getDescription(),200);
         dept.setSummary(summary);
         boolean b = this.service.save(dept);
@@ -125,7 +125,7 @@ public class DeptController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    private Result updateById(@NotNull Dept dept) {
+    public Result updateById(@NotNull Dept dept) {
         String summary = MyHtmlHelper.subHtmlText(dept.getDescription(),200);
         dept.setSummary(summary);
         boolean b = this.service.updateById(dept);
@@ -140,7 +140,7 @@ public class DeptController {
     @ApiOperation(value = "删除科室(逻辑删除)", notes = "删除科室(逻辑删除)")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", value = "科室ID", required = true, dataType = "String"),})
     @PostMapping(value = "/deleteLogicById", params = {"id"})
-    private Result deleteLogicById(@NotBlank String id) {
+    public Result deleteLogicById(@NotBlank String id) {
         Dept dept = new Dept();
         dept.setId(id);
         dept.setIsDelete(1);
@@ -158,7 +158,7 @@ public class DeptController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    private Result deletePhysicsById(@NotBlank String id) {
+    public Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);

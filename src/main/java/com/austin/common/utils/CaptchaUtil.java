@@ -15,7 +15,7 @@ public class CaptchaUtil {
     private BufferedImage buffImg;
     private String code;
     //验证码有效时间
-    public static final int DEFAULT_CACHE_TIME = 120;
+    public static final int DEFAULT_CACHE_TIME = 600;
 
     // 图片的宽度
     private static final int CAPTCHA_WIDTH = 90;

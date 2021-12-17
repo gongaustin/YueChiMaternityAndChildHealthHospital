@@ -1,6 +1,7 @@
 package com.austin.common.controller;
 
 
+import com.austin.common.core.annotation.SecurityParameter;
 import com.austin.common.core.bean.CodeMsg;
 import com.austin.common.core.bean.Result;
 import com.austin.common.entity.User;
@@ -20,9 +21,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,8 +41,8 @@ import java.util.concurrent.TimeUnit;
 @Api("登录前端控制器")
 public class LoginController{
 
-    @Autowired
-    public RedisTemplate redisTemplate;
+    @Resource
+    public RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     public IUserService service;
@@ -51,8 +54,9 @@ public class LoginController{
                     @ApiImplicitParam(paramType = "query", name = "password", value = "密码", required = true, dataType = "String"),
             }
     )
-    @PostMapping(params = {"username","password"})
-    private Result login(@NotBlank String username,@NotBlank String password,String key,String captcha){
+    @PostMapping(value = "/")
+    @SecurityParameter
+    public Result login(@NotBlank String username,@NotBlank String password,String key,String captcha){
 
         String code = this.redisTemplate.opsForValue().get(key)+"";
         if(!StringUtils.equalsIgnoreCase(code,captcha)) return Result.message(CodeMsg.CAPTCHA_ERROR);
@@ -75,13 +79,14 @@ public class LoginController{
 
 
     @ApiOperation(value = "BASE64验证码")
-    @GetMapping("/base64Code")
-    public Result getCaptchaCode() {
+    @GetMapping("/base64Code") 
+//    @SecurityParameter
+    public Result<ValidBase64CodeVO> getCaptchaCode() {
         CaptchaUtil instance = CaptchaUtil.getInstance();
         // 验证码标识
         String key = MyRandomUtils.randomUUID();
         this.redisTemplate.opsForValue().set(key, instance.getCode(), CaptchaUtil.DEFAULT_CACHE_TIME, TimeUnit.SECONDS);
-        System.out.println(instance.getCode());
+        System.out.println(key + "--" + instance.getCode());
         // 将图像输出到Servlet输出流中。
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -90,7 +95,8 @@ public class LoginController{
         } catch (IOException e) {
             throw new RuntimeException();
         }
-    }
 
+
+    }
 }
 

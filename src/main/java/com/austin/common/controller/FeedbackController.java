@@ -54,7 +54,7 @@ public class FeedbackController {
             }
     )
     @GetMapping("/list")
-    private Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword,String id) {
+    public Result getArticleByPage(@RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "10") Integer size, String keyword,String id) {
         Page<Feedback> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -84,7 +84,7 @@ public class FeedbackController {
             }
     )
     @PostMapping(value = "/add", params = {"name","contact","content"})
-    private Result save(@NotNull Feedback feedback) {
+    public Result save(@NotNull Feedback feedback) {
         boolean b = this.service.save(feedback);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
@@ -99,7 +99,7 @@ public class FeedbackController {
             }
     )
     @PostMapping(value = "/update", params = {"id"})
-    private Result updateById(@NotNull Feedback feedback) {
+    public Result updateById(@NotNull Feedback feedback) {
         boolean b = this.service.updateById(feedback);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
@@ -113,7 +113,7 @@ public class FeedbackController {
             }
     )
     @PostMapping(value = "/deletePhysicsById", params = {"id"})
-    private Result deletePhysicsById(@NotBlank String id) {
+    public Result deletePhysicsById(@NotBlank String id) {
         boolean b = this.service.removeById(id);
         if(b) return Result.message(CodeMsg.OPERATE_SUCCESS);
         return Result.message(CodeMsg.OPERATE_FAIL);
